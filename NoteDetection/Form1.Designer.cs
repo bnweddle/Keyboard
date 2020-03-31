@@ -126,6 +126,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(35, 425);
             this.button1.TabIndex = 0;
+            this.button1.Tag = "Properties.Resources.A0";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -309,7 +310,6 @@
             this.button14.Size = new System.Drawing.Size(32, 289);
             this.button14.TabIndex = 63;
             this.button14.UseVisualStyleBackColor = false;
-            this.button14.Click += new System.EventHandler(this.button21_Click);
             // 
             // button15
             // 
@@ -1099,10 +1099,13 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.KeyPreview = true;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Piano";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             this.ResumeLayout(false);
             this.PerformLayout();
 

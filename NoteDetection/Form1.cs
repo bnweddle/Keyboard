@@ -11,41 +11,72 @@ using System.Windows.Forms;
 using VisioForge.MediaFramework.media;
 using System.Speech;
 using System.Speech.Synthesis;
+using System.Media;
+using TTimer = System.Timers.Timer;
 
 namespace NoteDetection
 {
     public partial class Form1 : Form {
 
+        SoundPlayer pianoNotes;
+        bool[] keys = new bool[128];
+        bool[] oldKeys = new bool[128];
+        TTimer timer = new TTimer(100);
+
         /// <summary>
         /// Used http://theremin.music.uiowa.edu/MISpiano.html
         /// for music notes
         /// </summary>
-
         public Form1()
         {
             InitializeComponent();
+            timer.AutoReset = true;
+            timer.Elapsed += TimerTicking;
+            timer.Start();
         }
 
-        private void button21_Click(object sender, EventArgs e)
+        
+        private void TimerTicking(object sender, EventArgs e)
         {
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
+            //update key strutures 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            System.Media.SoundPlayer a0 = new System.Media.SoundPlayer(NoteDetection.Properties.Resources.A0);
-            a0.Play();
+            //midi tag, start and stop
+            keys[0] = true;
+            pianoNotes = new SoundPlayer(((Button)sender).Tag);
+            pianoNotes.Play();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            System.Media.SoundPlayer Bb0 = new System.Media.SoundPlayer(NoteDetection.Properties.Resources.Bb0);
-            Bb0.Play();
+            pianoNotes = new SoundPlayer(Properties.Resources.Bb0);
+            pianoNotes.Play();
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            if(e.KeyCode == Keys.R)
+            {
+                keys[0] = true;
+                button2.PerformClick();
+            }
+        }
+
+        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (Char)Keys.Q)
+            {
+                button1.PerformClick();
+            }
+
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            keys[0] = false;
         }
     }
 }
