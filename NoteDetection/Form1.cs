@@ -38,8 +38,14 @@ namespace NoteDetection
 
         private void button1_Click(object sender, EventArgs e)
         {
-            System.Media.SoundPlayer a0 = new System.Media.SoundPlayer(NoteDetection.Properties.Resources.Piano_ff_A0);
+            System.Media.SoundPlayer a0 = new System.Media.SoundPlayer(NoteDetection.Properties.Resources.A0);
             a0.Play();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            System.Media.SoundPlayer Bb0 = new System.Media.SoundPlayer(NoteDetection.Properties.Resources.Bb0);
+            Bb0.Play();
         }
     }
 }
