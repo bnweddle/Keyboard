@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VisioForge.MediaFramework.media;
+using System.Speech;
+using System.Speech.Synthesis;
 
 namespace NoteDetection
 {
@@ -36,7 +38,8 @@ namespace NoteDetection
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            System.Media.SoundPlayer a0 = new System.Media.SoundPlayer(NoteDetection.Properties.Resources.Piano_ff_A0);
+            a0.Play();
         }
     }
 }

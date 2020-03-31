@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Speech" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -362,6 +363,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Piano.mf.Gb6.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\A0.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bb0.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
