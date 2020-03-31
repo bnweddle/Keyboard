@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using VisioForge.MediaFramework.NAudio;
+using VisioForge.Shared.NAudio;
 
-namespace NoteDetection
-{
+namespace NoteDetection {
     public struct MidiOutCaps
     {
         public UInt16 wMid;

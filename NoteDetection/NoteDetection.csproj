@@ -33,6 +33,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Sanford.Collections">
+      <HintPath>..\..\..\..\Downloads\csharpmiditoolkitv5_demo\CSharpMidiToolkitV5_demo\Sanford.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="Sanford.Multimedia">
+      <HintPath>..\..\..\..\Downloads\csharpmiditoolkitv5_demo\CSharpMidiToolkitV5_demo\Sanford.Multimedia.dll</HintPath>
+    </Reference>
+    <Reference Include="Sanford.Multimedia.Midi">
+      <HintPath>..\..\..\..\Downloads\csharpmiditoolkitv5_demo\CSharpMidiToolkitV5_demo\SequencerDemo\bin\Debug\Sanford.Multimedia.Midi.dll</HintPath>
+    </Reference>
+    <Reference Include="Sanford.Multimedia.Timers">
+      <HintPath>..\..\..\..\Downloads\csharpmiditoolkitv5_demo\CSharpMidiToolkitV5_demo\Sanford.Multimedia.Timers.dll</HintPath>
+    </Reference>
+    <Reference Include="Sanford.Threading">
+      <HintPath>..\..\..\..\Downloads\csharpmiditoolkitv5_demo\CSharpMidiToolkitV5_demo\Sanford.Threading.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Speech" />
@@ -78,10 +93,19 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="MidiOutCaps.cs" />
+    <Compile Include="Piano.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Piano.Designer.cs">
+      <DependentUpon>Piano.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Piano.resx">
+      <DependentUpon>Piano.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
