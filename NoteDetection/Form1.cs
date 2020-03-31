@@ -45,7 +45,7 @@ namespace NoteDetection
         {
             //midi tag, start and stop
             keys[0] = true;
-            pianoNotes = new SoundPlayer(((Button)sender).Tag);
+            pianoNotes = new SoundPlayer(Properties.Resources.A0);
             pianoNotes.Play();
         }
 

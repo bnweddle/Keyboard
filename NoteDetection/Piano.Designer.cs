@@ -28,27 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pianoControl1 = new Sanford.Multimedia.Midi.UI.PianoControl();
+            this.PianoControl = new Sanford.Multimedia.Midi.UI.PianoControl();
             this.SuspendLayout();
             // 
-            // pianoControl1
+            // PianoControl
             // 
-            this.pianoControl1.HighNoteID = 109;
-            this.pianoControl1.Location = new System.Drawing.Point(13, 22);
-            this.pianoControl1.LowNoteID = 21;
-            this.pianoControl1.Margin = new System.Windows.Forms.Padding(4);
-            this.pianoControl1.Name = "pianoControl1";
-            this.pianoControl1.NoteOnColor = System.Drawing.Color.SkyBlue;
-            this.pianoControl1.Size = new System.Drawing.Size(1662, 206);
-            this.pianoControl1.TabIndex = 6;
-            this.pianoControl1.Text = "pianoControl1";
+            this.PianoControl.HighNoteID = 109;
+            this.PianoControl.Location = new System.Drawing.Point(29, 3);
+            this.PianoControl.LowNoteID = 21;
+            this.PianoControl.Margin = new System.Windows.Forms.Padding(4);
+            this.PianoControl.Name = "PianoControl";
+            this.PianoControl.NoteOnColor = System.Drawing.Color.AliceBlue;
+            this.PianoControl.Size = new System.Drawing.Size(1689, 201);
+            this.PianoControl.TabIndex = 6;
+            this.PianoControl.PianoKeyDown += new System.EventHandler<Sanford.Multimedia.Midi.UI.PianoKeyEventArgs>(this.PianoControl_PianoKeyDown);
+            this.PianoControl.PianoKeyUp += new System.EventHandler<Sanford.Multimedia.Midi.UI.PianoKeyEventArgs>(this.PianoControl_PianoKeyUp);
             // 
             // Piano
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1661, 250);
-            this.Controls.Add(this.pianoControl1);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(1924, 205);
+            this.Controls.Add(this.PianoControl);
             this.Name = "Piano";
             this.Text = "Piano";
             this.ResumeLayout(false);
@@ -57,6 +59,6 @@
 
         #endregion
 
-        private Sanford.Multimedia.Midi.UI.PianoControl pianoControl1;
+        private Sanford.Multimedia.Midi.UI.PianoControl PianoControl;
     }
 }
