@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Sanford.Multimedia.Midi;
 using Sanford.Multimedia.Midi.UI;
@@ -24,16 +17,13 @@ namespace NoteDetection
         {
             InitializeComponent();
 
-            this.PianoControl.Size = this.Size;
+            this.pianoControl.Size = this.Size;
         }
 
         protected override void OnLoad(EventArgs e)
         {
             if (OutputDevice.DeviceCount == 0)
             {
-                MessageBox.Show("No MIDI output devices available.", "Error!",
-                    MessageBoxButtons.OK, MessageBoxIcon.Stop);
-
                 Close();
             }
             else
@@ -44,9 +34,7 @@ namespace NoteDetection
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Error!",
-                        MessageBoxButtons.OK, MessageBoxIcon.Stop);
-
+                    MessageBox.Show(ex.Message, "Error!");
                     Close();
                 }
             }
@@ -56,14 +44,14 @@ namespace NoteDetection
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            PianoControl.PressPianoKey(e.KeyCode);
+            pianoControl.PressPianoKey(e.KeyCode);
 
             base.OnKeyDown(e);
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
         {
-            PianoControl.ReleasePianoKey(e.KeyCode);
+            pianoControl.ReleasePianoKey(e.KeyCode);
 
             base.OnKeyUp(e);
         }
