@@ -43,6 +43,8 @@
             this.pianoControl.TabIndex = 6;
             this.pianoControl.PianoKeyDown += new System.EventHandler<Sanford.Multimedia.Midi.UI.PianoKeyEventArgs>(this.PianoControl_PianoKeyDown);
             this.pianoControl.PianoKeyUp += new System.EventHandler<Sanford.Multimedia.Midi.UI.PianoKeyEventArgs>(this.PianoControl_PianoKeyUp);
+            this.pianoControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pianoControl_KeyDown);
+            this.pianoControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.pianoControl_KeyUp);
             // 
             // Piano
             // 

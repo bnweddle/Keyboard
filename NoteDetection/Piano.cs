@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
 using Sanford.Multimedia.Midi;
 using Sanford.Multimedia.Midi.UI;
@@ -42,20 +47,6 @@ namespace NoteDetection
             base.OnLoad(e);
         }
 
-        protected override void OnKeyDown(KeyEventArgs e)
-        {
-            pianoControl.PressPianoKey(e.KeyCode);
-
-            base.OnKeyDown(e);
-        }
-
-        protected override void OnKeyUp(KeyEventArgs e)
-        {
-            pianoControl.ReleasePianoKey(e.KeyCode);
-
-            base.OnKeyUp(e);
-        }
-
         private void PianoControl_PianoKeyDown(object sender, PianoKeyEventArgs e)
         {
             if (playing)
@@ -74,6 +65,19 @@ namespace NoteDetection
             }
 
             outDevice.Send(new ChannelMessage(ChannelCommand.NoteOff, 0, e.NoteID, 0));
+        }
+
+        private void pianoControl_KeyDown(object sender, KeyEventArgs e)
+        {
+            pianoControl.PressPianoKey(e.KeyCode);
+            base.OnKeyDown(e);
+        }
+
+        private void pianoControl_KeyUp(object sender, KeyEventArgs e)
+        {
+            pianoControl.ReleasePianoKey(e.KeyCode);
+
+            base.OnKeyUp(e);
         }
     }
 }
