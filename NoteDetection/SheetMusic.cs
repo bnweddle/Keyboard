@@ -27,6 +27,9 @@ namespace NoteDetection
             for (int i = 1; i < 6; i++)
                 g.DrawLine(Pens.Black, 0, i * _staffHght, 900, i * _staffHght);
 
+            Font f = new Font("Symbola", 72);
+            g.DrawString("\uD834\uDD1A", f, _noteBrush, 50, 4);
+
             // draw four semi-random full and quarter notes
             g.DrawEllipse(_notePen, 10, 2 * _staffHght, _noteWdth, _noteHght);
             g.DrawEllipse(_notePen, 50, 4 * _staffHght, _noteWdth, _noteHght);
