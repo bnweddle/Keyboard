@@ -37,8 +37,8 @@ namespace NoteDetection
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Piano());
-            //Application.Run(new Form1());
+            //Application.Run(new Piano());
+            Application.Run(new SheetMusic());
         }
     }
 }

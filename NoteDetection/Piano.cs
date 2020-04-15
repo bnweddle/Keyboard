@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -12,16 +13,20 @@ namespace NoteDetection
 {
     public partial class Piano : Form
     {
-        private bool playing = false;
-
         private int outDeviceID = 0;
 
         private OutputDevice outDevice;
+
+        public Stopwatch[] Timers = new Stopwatch[127];     
 
         public Piano()
         {
             InitializeComponent();
 
+            for(int i = 0; i < Timers.Length; i++)
+            {
+                Timers[i] = new Stopwatch();
+            }
             this.pianoControl.Size = this.Size;
         }
 
@@ -49,21 +54,16 @@ namespace NoteDetection
 
         private void PianoControl_PianoKeyDown(object sender, PianoKeyEventArgs e)
         {
-            if (playing)
-            {
-                return;
-            }
+            Timers[e.NoteID].Start();
+            System.Diagnostics.Debug.WriteLine($"{e.NoteID } pressed note");
 
             outDevice.Send(new ChannelMessage(ChannelCommand.NoteOn, 0, e.NoteID, 127));
         }
 
         private void PianoControl_PianoKeyUp(object sender, PianoKeyEventArgs e)
-        {
-            if (playing)
-            {
-                return;
-            }
-
+        {          
+            Timers[e.NoteID].Stop();
+            System.Diagnostics.Debug.WriteLine($"{Timers[e.NoteID].ElapsedMilliseconds } pressed milli time");
             outDevice.Send(new ChannelMessage(ChannelCommand.NoteOff, 0, e.NoteID, 0));
         }
 
@@ -76,7 +76,6 @@ namespace NoteDetection
         private void pianoControl_KeyUp(object sender, KeyEventArgs e)
         {
             pianoControl.ReleasePianoKey(e.KeyCode);
-
             base.OnKeyUp(e);
         }
     }
