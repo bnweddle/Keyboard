@@ -17,6 +17,8 @@ namespace NoteDetection
         {
             InitializeComponent();
             this.AutoScroll = true;
+            this.AutoScrollMinSize = new Size(3000, 1000);
+            this.ResizeRedraw = true;
             ImportFont();
         }
 
@@ -26,6 +28,12 @@ namespace NoteDetection
         Treble treble = new Treble();
         Bass bass = new Bass();
         Lines lines = new Lines();
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            e.Graphics.TranslateTransform(this.AutoScrollPosition.X, this.AutoScrollPosition.Y);
+            base.OnPaint(e);
+        }
 
         private void SheetMusic_Paint(object sender, PaintEventArgs e)
         {
@@ -40,13 +48,12 @@ namespace NoteDetection
             treble.DrawTreble(g, font);
             bass.DrawTreble(g, font);
 
-
             // draw four semi-random full and quarter notes
-           /* g.DrawEllipse(_notePen, 20, 2 * _staffHght, _noteWdth, _noteHght);
-            g.DrawEllipse(_notePen, 50, 4 * _staffHght, _noteWdth, _noteHght);
+            /* g.DrawEllipse(_notePen, 20, 2 * _staffHght, _noteWdth, _noteHght);
+             g.DrawEllipse(_notePen, 50, 4 * _staffHght, _noteWdth, _noteHght);
 
-            g.FillEllipse(_noteBrush, 100, 2 * _staffHght, _noteWdth, _noteHght);
-            g.FillEllipse(_noteBrush, 150, 4 * _staffHght, _noteWdth, _noteHght);*/
+             g.FillEllipse(_noteBrush, 100, 2 * _staffHght, _noteWdth, _noteHght);
+             g.FillEllipse(_noteBrush, 150, 4 * _staffHght, _noteWdth, _noteHght);*/
         }
 
         /// <summary>
