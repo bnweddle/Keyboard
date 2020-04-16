@@ -28,13 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.scrollBar = new System.Windows.Forms.HScrollBar();
             this.SuspendLayout();
+            // 
+            // scrollBar
+            // 
+            this.scrollBar.Location = new System.Drawing.Point(0, 268);
+            this.scrollBar.Name = "scrollBar";
+            this.scrollBar.Size = new System.Drawing.Size(920, 21);
+            this.scrollBar.TabIndex = 0;
             // 
             // SheetMusic
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(882, 450);
+            this.ClientSize = new System.Drawing.Size(920, 289);
+            this.Controls.Add(this.scrollBar);
             this.Name = "SheetMusic";
             this.Text = "SheetMusic";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.SheetMusic_Paint);
@@ -43,5 +52,7 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.HScrollBar scrollBar;
     }
 }
