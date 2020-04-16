@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,9 @@ namespace NoteDetection
         protected bool HasLine = false;
         public const int NoteSpacing = 15;
         public const int ClefOffset = 50;
+        public Point position = new Point(0, 0);
+        public Chromatic chromatic = Chromatic.Natural;
+        public Timing timing = Timing.Quarter;
 
         private int noteHght = 12;
         private int noteWdth = 20;
@@ -36,28 +40,20 @@ namespace NoteDetection
             Whole
         };
 
-        public Point position = new Point(0, 0);
-        public Chromatic chromatic = Chromatic.Natural;
-        public Timing timing = Timing.Quarter;
 
-        public void DrawNote(Timing time)
-        { 
-            switch(time)
+        public void ApproxTime(Stopwatch time, int bpm)
+        {
+            // figure out how to do beats per minute
+            // Need bpm in here to do this.
+            if (time.ElapsedMilliseconds >= 700 && time.ElapsedMilliseconds <= 1200)
             {
-                case Timing.Sixteenth:
-                    break;
-                case Timing.Eighth:
-                    break;
-                case Timing.Quarter:
-                    break;
-                case Timing.Half:
-                    break;
-                case Timing.Third:
-                    //Do this one last
-                    break;
-                case Timing.Whole:
-                    break;         
+                timing = Timing.Quarter;
             }
+            else if (time.ElapsedMilliseconds >= 600 && time.ElapsedMilliseconds <= 1499)
+            {
+                timing = Timing.Quarter;
+            }
+
         }
 
     }

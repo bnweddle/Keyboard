@@ -13,11 +13,14 @@ namespace NoteDetection
         [DllImport("gdi32.dll")]
         private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
 
-        public SheetMusic()
+        public int bpm;
+
+        public SheetMusic(int beats)
         {
             InitializeComponent();
+            bpm = beats;
             this.AutoScroll = true;
-            this.AutoScrollMinSize = new Size(3000, 1000);
+            this.AutoScrollMinSize = new Size(3000, this.Size.Height - 100);
             this.ResizeRedraw = true;
             ImportFont();
         }

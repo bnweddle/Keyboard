@@ -17,15 +17,20 @@ namespace NoteDetection
 
         private OutputDevice outDevice;
 
-        public Stopwatch[] Timers = new Stopwatch[127];     
+        
+        Stopwatch[] oldTimers = new Stopwatch[127]; 
+        public Stopwatch[] currentTimers = new Stopwatch[127];
+        public Queue<int> orderedNotes = new Queue<int>();
+        public Dictionary<int, Stopwatch> currentNote;
 
         public Piano()
         {
             InitializeComponent();
 
-            for(int i = 0; i < Timers.Length; i++)
+            for(int i = 0; i < oldTimers.Length; i++)
             {
-                Timers[i] = new Stopwatch();
+                oldTimers[i] = new Stopwatch();
+                currentTimers[i] = new Stopwatch();
             }
             this.pianoControl.Size = this.Size;
         }
@@ -54,17 +59,20 @@ namespace NoteDetection
 
         private void PianoControl_PianoKeyDown(object sender, PianoKeyEventArgs e)
         {
-            Timers[e.NoteID].Start();
+            oldTimers[e.NoteID].Start();
+            orderedNotes.Enqueue(e.NoteID);
             System.Diagnostics.Debug.WriteLine($"{e.NoteID } pressed note");
-
-            outDevice.Send(new ChannelMessage(ChannelCommand.NoteOn, 0, e.NoteID, 127));
+            outDevice.Send(new ChannelMessage(ChannelCommand.NoteOn, 0, e.NoteID, 127));      
         }
 
         private void PianoControl_PianoKeyUp(object sender, PianoKeyEventArgs e)
-        {          
-            Timers[e.NoteID].Stop();
-            System.Diagnostics.Debug.WriteLine($"{Timers[e.NoteID].ElapsedMilliseconds } pressed milli time");
+        {   
+            oldTimers[e.NoteID].Stop();       
             outDevice.Send(new ChannelMessage(ChannelCommand.NoteOff, 0, e.NoteID, 0));
+            currentTimers[e.NoteID] = oldTimers[e.NoteID];
+            CurrentPlayedNote(currentTimers[e.NoteID], orderedNotes);
+            System.Diagnostics.Debug.WriteLine($"{currentTimers[e.NoteID].ElapsedMilliseconds } current pressed milli time");
+            oldTimers[e.NoteID].Reset();
         }
 
         private void pianoControl_KeyDown(object sender, KeyEventArgs e)
@@ -77,6 +85,14 @@ namespace NoteDetection
         {
             pianoControl.ReleasePianoKey(e.KeyCode);
             base.OnKeyUp(e);
+        }
+
+        public Dictionary<int, Stopwatch> CurrentPlayedNote(Stopwatch timers, Queue<int> ordered)
+        {
+            currentNote = new Dictionary<int, Stopwatch>();
+            int noteID = ordered.Dequeue();
+            currentNote.Add(noteID, timers);        
+            return currentNote;
         }
     }
 }
