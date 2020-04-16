@@ -2,16 +2,25 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+using System.Runtime.InteropServices;
+using System.Drawing.Text;
 
 namespace NoteDetection
 {
     public partial class SheetMusic : Form
     {
+
+        [DllImport("gdi32.dll")]
+        private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
+
         public SheetMusic()
         {
             InitializeComponent();
+            CargoPrivateFontCollection();
         }
 
+        FontFamily ff;
+        Font font;
         private int _staffHght = 15;
         private int _noteHght = 12;
         private int _noteWdth = 20;
@@ -27,8 +36,11 @@ namespace NoteDetection
             for (int i = 1; i < 6; i++)
                 g.DrawLine(Pens.Black, 0, i * _staffHght, 900, i * _staffHght);
 
-            Font f = new Font("Symbola", 72);
-            g.DrawString("\uD834\uDD1A", f, _noteBrush, 50, 4);
+            float size = 11f;
+            FontStyle fontStyle = FontStyle.Regular;
+
+            font = new Font(ff, 20, fontStyle);
+            g.DrawString("\uD834\uDD1A", font, _noteBrush, 150, 4);
 
             // draw four semi-random full and quarter notes
             g.DrawEllipse(_notePen, 10, 2 * _staffHght, _noteWdth, _noteHght);
@@ -36,6 +48,31 @@ namespace NoteDetection
 
             g.FillEllipse(_noteBrush, 100, 2 * _staffHght, _noteWdth, _noteHght);
             g.FillEllipse(_noteBrush, 150, 4 * _staffHght, _noteWdth, _noteHght);
+        }
+
+        private void CargoPrivateFontCollection()
+        {
+            // Create the byte array and get its length
+            byte[] fontArray = Properties.Resources.Symbola;
+            int dataLength = Properties.Resources.Symbola.Length;
+
+
+            // ASSIGN MEMORY AND COPY  BYTE[] ON THAT MEMORY ADDRESS
+            IntPtr ptrData = Marshal.AllocCoTaskMem(dataLength);
+            Marshal.Copy(fontArray, 0, ptrData, dataLength);
+
+            uint cFonts = 0;
+            AddFontMemResourceEx(ptrData, (uint)fontArray.Length, IntPtr.Zero, ref cFonts);
+
+            PrivateFontCollection pfc = new PrivateFontCollection();
+            //PASS THE FONT TO THE  PRIVATEFONTCOLLECTION OBJECT
+            pfc.AddMemoryFont(ptrData, dataLength);
+
+            //FREE THE  "UNSAFE" MEMORY
+            Marshal.FreeCoTaskMem(ptrData);
+
+            ff = pfc.Families[0];
+            font = new Font(ff, 15f, FontStyle.Bold);
         }
     }
 }

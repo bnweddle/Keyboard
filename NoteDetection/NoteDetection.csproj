@@ -137,6 +137,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Resources\Symbola.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
