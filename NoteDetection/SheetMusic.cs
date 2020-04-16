@@ -16,28 +16,23 @@ namespace NoteDetection
         public SheetMusic()
         {
             InitializeComponent();
+            this.AutoScroll = true;
             ImportFont();
         }
 
         FontFamily ff;
         Font font;
-        private int _staffHght = 15;
-        private int _noteHght = 12;
-        private int _noteWdth = 20;
-        private Pen _notePen = new Pen(Color.Black, 2);
-        private Brush _noteBrush = Brushes.Black;
 
         Treble treble = new Treble();
         Bass bass = new Bass();
+        Lines lines = new Lines();
 
         private void SheetMusic_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.HighQuality;
+            lines.DrawLines(g);
 
-            // draw some staff lines
-            for (int i = 1; i < 12; i++)
-                g.DrawLine(Pens.Black, 0, i * _staffHght, 900, i * _staffHght);
 
             FontStyle fontStyle = FontStyle.Regular;
             font = new Font(ff, 50, fontStyle);

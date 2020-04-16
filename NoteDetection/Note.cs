@@ -13,6 +13,12 @@ namespace NoteDetection
         public const int NoteSpacing = 15;
         public const int ClefOffset = 50;
 
+        private int noteHght = 12;
+        private int noteWdth = 20;
+        private Pen notePen = new Pen(Color.Black, 2);
+        private Brush noteBrush = Brushes.Black;
+
+
         public enum Chromatic
         {
             Flat,

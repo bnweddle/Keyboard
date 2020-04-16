@@ -22,7 +22,7 @@ namespace NoteDetection
         /// <summary>
         /// the Y position for the graphics
         /// </summary>
-        public float Y { get; set; } = 100;
+        public float Y { get; set; } = 175;
 
         /// <summary>
         /// The size of the font
