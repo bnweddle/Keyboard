@@ -72,7 +72,16 @@ namespace NoteDetection
             currentTimers[e.NoteID] = oldTimers[e.NoteID];
             CurrentPlayedNote(currentTimers[e.NoteID], orderedNotes);
             System.Diagnostics.Debug.WriteLine($"{currentTimers[e.NoteID].ElapsedMilliseconds } current pressed milli time");
+            System.Diagnostics.Debug.WriteLine($"{currentTimers[e.NoteID].ElapsedMilliseconds} rounded double value");
             oldTimers[e.NoteID].Reset();
+        }
+
+        public static int Round(this int i, int nearest)
+        {
+            if (nearest <= 0 || nearest % 10 != 0)
+                throw new ArgumentOutOfRangeException("nearest", "Must round to a positive multiple of 10");
+
+            return (i + 5 * nearest / 10) / nearest * nearest;
         }
 
         private void pianoControl_KeyDown(object sender, KeyEventArgs e)

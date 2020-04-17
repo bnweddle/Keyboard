@@ -13,7 +13,6 @@ namespace NoteDetection
 
         public void DrawLines(Graphics g)
         {
-
             int i;
             // draw some staff lines, 900 will need to change as user is playing, want to scroll with sheet music as user plays as well
             for (i = 3; i < 8; i++)

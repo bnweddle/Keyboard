@@ -37,6 +37,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(900, 393);
             this.Name = "SheetMusic";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SheetMusic";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.SheetMusic_Paint);
             this.ResumeLayout(false);

@@ -22,6 +22,7 @@ namespace NoteDetection
             SheetMusic sheet = new SheetMusic(Convert.ToInt32(BPM.Text));
             piano.Show();
             sheet.Show();
+            this.Hide();
             
         }
     }

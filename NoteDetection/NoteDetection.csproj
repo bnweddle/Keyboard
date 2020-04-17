@@ -94,6 +94,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Lines.cs" />
+    <Compile Include="MathExtensions.cs" />
     <Compile Include="MidiOutCaps.cs" />
     <Compile Include="Note.cs" />
     <Compile Include="Piano.cs">

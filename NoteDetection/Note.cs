@@ -43,18 +43,17 @@ namespace NoteDetection
 
         public void ApproxTime(Stopwatch time, int bpm)
         {
+            int minuteMil = 60000;
+
+            
+
             // figure out how to do beats per minute
             // Need bpm in here to do this.
-            if (time.ElapsedMilliseconds >= 700 && time.ElapsedMilliseconds <= 1200)
-            {
-                timing = Timing.Quarter;
-            }
-            else if (time.ElapsedMilliseconds >= 600 && time.ElapsedMilliseconds <= 1499)
-            {
-                timing = Timing.Quarter;
-            }
+           
 
         }
+
+        
 
     }
 }
