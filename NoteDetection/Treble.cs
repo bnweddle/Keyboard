@@ -17,12 +17,12 @@ namespace NoteDetection
         /// <summary>
         /// the X position for the graphics
         /// </summary>
-        public float X { get; set; } = 35;
+        public float X { get; set; } = 55;
 
         /// <summary>
         /// the Y position for the graphics
         /// </summary>
-        public float Y { get; set; } = 40;
+        public float Y { get; set; } = 25;
 
         /// <summary>
         /// The size of the font
@@ -35,14 +35,21 @@ namespace NoteDetection
         private Brush noteBrush = Brushes.Black;
 
         /// <summary>
+        /// The style of the font
+        /// </summary>
+        private FontStyle fontStyle = FontStyle.Regular;
+
+        /// <summary>
         /// Draws the treble symbol on the form
         /// </summary>
         /// <param name="g">the graphics to call the draw method</param>
         /// <param name="font">the font needed to draw the symbol</param>
-        public void DrawTreble(Graphics g, Font font)
+        /// <param name="ff">the font family to which the font belongs</param>
+        public void DrawTreble(Graphics g, Font font, FontFamily ff)
         {
+            font = new Font(ff, this.Size, fontStyle);
             g.DrawString(this.TrebleClef, font, noteBrush, this.X, this.Y);
-            g.DrawString("\uD834\uDD34", font, noteBrush, this.X + 10, this.Y - 10);
+            g.DrawString("\uD834\uDD34", font, noteBrush, this.X + 5, this.Y - 25);
         }
     }
 }

@@ -97,6 +97,7 @@
     <Compile Include="MathExtensions.cs" />
     <Compile Include="MidiOutCaps.cs" />
     <Compile Include="Note.cs" />
+    <Compile Include="NoteEstimator.cs" />
     <Compile Include="Piano.cs">
       <SubType>Form</SubType>
     </Compile>

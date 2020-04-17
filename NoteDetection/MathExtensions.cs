@@ -17,12 +17,12 @@ namespace NoteDetection
         /// <param name="i">the value to round</param>
         /// <param name="nearest">the multiple of ten to round closest to</param>
         /// <returns>the rounded new value</returns>
-        public static int Round(this long value, int nearest)
+        public static long Round(this long value, int nearest)
         {
             if (nearest <= 0 || nearest % 10 != 0)
                 throw new ArgumentOutOfRangeException("nearest", "Must round to a positive multiple of 10");
 
-            return ((int)value + 5 * nearest / 10) / nearest * nearest;
+            return (value + 5 * nearest / 10) / nearest * nearest;
         }
 
         /// <summary>

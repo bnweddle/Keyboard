@@ -23,13 +23,15 @@ namespace NoteDetection
         public Dictionary<int, Stopwatch> currentNote;
 
         public int BeatsPerMinute { get; }
+        public NoteEstimator noteEstimator;
 
         public Piano(int bpm)
         {
             InitializeComponent();
             BeatsPerMinute = bpm;
+            noteEstimator = new NoteEstimator(bpm);
 
-            for(int i = 0; i < oldTimers.Length; i++)
+            for (int i = 0; i < oldTimers.Length; i++)
             {
                 oldTimers[i] = new Stopwatch();
                 currentTimers[i] = new Stopwatch();
@@ -86,8 +88,9 @@ namespace NoteDetection
             currentTimers[e.NoteID] = oldTimers[e.NoteID];
             CurrentPlayedNote(currentTimers[e.NoteID], orderedNotes);
             System.Diagnostics.Debug.WriteLine($"{currentTimers[e.NoteID].ElapsedMilliseconds } current pressed milli time");
-            System.Diagnostics.Debug.WriteLine($"{currentTimers[e.NoteID].ElapsedMilliseconds.Round(100) } rounded value");
-            //DisplayBPM();
+            DisplayBPM();
+            long duration = currentTimers[e.NoteID].ElapsedMilliseconds.Round(100);
+            System.Diagnostics.Debug.WriteLine($"{noteEstimator.GetNoteFromDuration(duration) } note");
             oldTimers[e.NoteID].Reset();
         }
 

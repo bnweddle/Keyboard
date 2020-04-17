@@ -9,6 +9,7 @@ namespace NoteDetection
 {
     public partial class SheetMusic : Form
     {
+        private int staffHeight = 15;
 
         [DllImport("gdi32.dll")]
         private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
@@ -39,14 +40,10 @@ namespace NoteDetection
         {
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.HighQuality;
-            lines.DrawLines(g);
+            DrawLines(g);
 
-
-            FontStyle fontStyle = FontStyle.Regular;
-            font = new Font(ff, 75, fontStyle);
-
-            treble.DrawTreble(g, font);
-            bass.DrawTreble(g, font);
+            treble.DrawTreble(g, font, ff);
+            bass.DrawTreble(g, font, ff);
 
             // draw four semi-random full and quarter notes
             /* g.DrawEllipse(_notePen, 20, 2 * _staffHght, _noteWdth, _noteHght);
@@ -82,6 +79,18 @@ namespace NoteDetection
 
             ff = pfc.Families[0];
             font = new Font(ff, 15f, FontStyle.Bold);
+        }
+
+        public void DrawLines(Graphics g)
+        {
+            int i;
+            // draw some staff lines, 900 will need to change as user is playing, want to scroll with sheet music as user plays as well
+            for (i = 3; i < 8; i++)
+                g.DrawLine(Pens.Black, 0, i * staffHeight, this.Size.Width, i * staffHeight);
+            for (; i < 13; i++)
+                g.DrawLine(Pens.Wheat, 0, i * staffHeight, this.Size.Width, i * staffHeight);
+            for (; i < 18; i++)
+                g.DrawLine(Pens.Black, 0, i * staffHeight, this.Size.Width, i * staffHeight);
         }
 
     }
