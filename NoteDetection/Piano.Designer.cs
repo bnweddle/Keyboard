@@ -28,9 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.pianoControl = new Sanford.Multimedia.Midi.UI.PianoControl();
-            this.noteTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // pianoControl
@@ -57,6 +55,7 @@
             this.Controls.Add(this.pianoControl);
             this.Name = "Piano";
             this.Text = "Piano";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Piano_FormClosed);
             this.ResumeLayout(false);
 
         }
@@ -64,6 +63,5 @@
         #endregion
 
         private Sanford.Multimedia.Midi.UI.PianoControl pianoControl;
-        private System.Windows.Forms.Timer noteTimer;
     }
 }

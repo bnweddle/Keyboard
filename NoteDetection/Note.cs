@@ -17,42 +17,35 @@ namespace NoteDetection
         public Chromatic chromatic = Chromatic.Natural;
         public Timing timing = Timing.Quarter;
 
-        private int noteHght = 12;
-        private int noteWdth = 20;
+        // private int noteHght = 12;
+        // private int noteWdth = 20;
         private Pen notePen = new Pen(Color.Black, 2);
         private Brush noteBrush = Brushes.Black;
 
 
         public enum Chromatic
         {
-            Flat,
-            Sharp,
-            Natural
+            Flat,      // "\u266D"
+            Sharp,     // "\u266F"
+            Natural    // "\u266E"
         };
 
         public enum Timing
         {
-            Sixteenth,
-            Eighth,
             Quarter,
             Half,
+            Eighth,
+            Sixteenth,
             Third,
             Whole
         };
 
+        private long duration;
 
-        public void ApproxTime(Stopwatch time, int bpm)
+        public Note(long d)
         {
-            int minuteMil = 60000;
-
-            
-
-            // figure out how to do beats per minute
-            // Need bpm in here to do this.
-           
-
+            duration = d;
         }
-
         
 
     }

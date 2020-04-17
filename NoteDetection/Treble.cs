@@ -27,7 +27,7 @@ namespace NoteDetection
         /// <summary>
         /// The size of the font
         /// </summary>
-        public float Size { get; set; } = 50;
+        public float Size { get; set; } = 75;
 
         /// <summary>
         /// The brush the paint with
@@ -42,6 +42,7 @@ namespace NoteDetection
         public void DrawTreble(Graphics g, Font font)
         {
             g.DrawString(this.TrebleClef, font, noteBrush, this.X, this.Y);
+            g.DrawString("\uD834\uDD34", font, noteBrush, this.X + 10, this.Y - 10);
         }
     }
 }

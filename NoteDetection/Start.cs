@@ -18,8 +18,8 @@ namespace NoteDetection
 
         private void uxOpen_Click(object sender, EventArgs e)
         {
-            Piano piano = new Piano();
-            SheetMusic sheet = new SheetMusic(Convert.ToInt32(BPM.Text));
+            Piano piano = new Piano(Convert.ToInt32(BPM.Text));
+            SheetMusic sheet = new SheetMusic();
             piano.Show();
             sheet.Show();
             this.Hide();

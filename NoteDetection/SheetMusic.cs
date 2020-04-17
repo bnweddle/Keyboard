@@ -13,12 +13,9 @@ namespace NoteDetection
         [DllImport("gdi32.dll")]
         private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
 
-        public int bpm;
-
-        public SheetMusic(int beats)
+        public SheetMusic()
         {
             InitializeComponent();
-            bpm = beats;
             this.AutoScroll = true;
             this.AutoScrollMinSize = new Size(3000, this.Size.Height - 100);
             this.ResizeRedraw = true;
@@ -46,7 +43,7 @@ namespace NoteDetection
 
 
             FontStyle fontStyle = FontStyle.Regular;
-            font = new Font(ff, 50, fontStyle);
+            font = new Font(ff, 75, fontStyle);
 
             treble.DrawTreble(g, font);
             bass.DrawTreble(g, font);
@@ -86,5 +83,6 @@ namespace NoteDetection
             ff = pfc.Families[0];
             font = new Font(ff, 15f, FontStyle.Bold);
         }
+
     }
 }
