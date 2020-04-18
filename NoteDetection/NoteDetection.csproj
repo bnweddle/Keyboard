@@ -94,7 +94,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Lines.cs" />
-    <Compile Include="MathExtensions.cs" />
+    <Compile Include="Global.cs" />
     <Compile Include="MidiOutCaps.cs" />
     <Compile Include="Note.cs" />
     <Compile Include="NoteEstimator.cs" />
@@ -118,6 +118,7 @@
     <Compile Include="Start.Designer.cs">
       <DependentUpon>Start.cs</DependentUpon>
     </Compile>
+    <Compile Include="Symbol.cs" />
     <Compile Include="Treble.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

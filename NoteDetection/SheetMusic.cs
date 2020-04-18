@@ -28,7 +28,7 @@ namespace NoteDetection
 
         Treble treble = new Treble();
         Bass bass = new Bass();
-        Lines lines = new Lines();
+        Symbol symbol = new Symbol();
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -44,6 +44,8 @@ namespace NoteDetection
 
             treble.DrawTreble(g, font, ff);
             bass.DrawTreble(g, font, ff);
+
+            symbol.DrawSymbol(g, font, ff, Global.Symbol, treble.X, treble.Y);
 
             // draw four semi-random full and quarter notes
             /* g.DrawEllipse(_notePen, 20, 2 * _staffHght, _noteWdth, _noteHght);

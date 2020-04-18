@@ -8,7 +8,7 @@ namespace NoteDetection
 {
     public class NoteEstimator
     {
-        private long[] thresholds;
+        private static long[] thresholds;
 
         public NoteEstimator(int bpm)
         {

@@ -8,6 +8,30 @@ using System.Threading.Tasks;
 
 namespace NoteDetection
 {
+    public enum Octave
+    {
+        A0,
+        A1,
+        A2,
+        A3,
+        A4,
+        A5,
+        A6,
+        A7,
+        A8
+    };
+
+    public enum Scale
+    {
+        A,
+        B,
+        C,
+        D,
+        E,
+        F,
+        G
+    };
+
     public enum Timing
     {
         Sixteenth = 0,   // "\uD834\uDD61"
@@ -28,8 +52,53 @@ namespace NoteDetection
 
     public class Note
     {
-        private Pen notePen = new Pen(Color.Black, 2);
-        private Brush noteBrush = Brushes.Black;
+        public string GetNoteSymbol(Timing symbol)
+        {
+            string unicode = "";
+            switch(symbol)
+            {
+                case Timing.Sixteenth:
+                    unicode = "\uD834\uDD61";
+                    break;
+                case Timing.Eighth:
+                    unicode = "\uD834\uDD60";
+                    break;
+                case Timing.Quarter:
+                    unicode = "\uD834\uDD5F";
+                    break;
+                case Timing.ThirdQuart:
+                    unicode = "\uD834\uDD5F"; // Need a dot beside it
+                    break;
+                case Timing.Half:
+                    unicode = "\uD834\uDD5E";
+                    break;
+                case Timing.ThirdHalf:
+                    unicode = "\uD834\uDD5E"; // Need a dot beside it
+                    break;
+                case Timing.Whole:
+                    unicode = "\uD834\uDD5D";
+                    break;
+            }
 
+            return unicode;
+        }
+
+        public string GetChromaticSymbol(Chromatic symbol)
+        {
+            string unicode = "";
+            switch (symbol)
+            {
+                case Chromatic.Natural:
+                    unicode = "\u266E";
+                    break;
+                case Chromatic.Flat:
+                    unicode = "\u266D";
+                    break;
+                case Chromatic.Sharp:
+                    unicode = "\u266F";
+                    break;
+            }
+            return unicode;
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace NoteDetection
 {
     public partial class Piano : Form
     {
+        string timeSymbol;
         private int outDeviceID = 0;
 
         private OutputDevice outDevice;
@@ -22,14 +23,18 @@ namespace NoteDetection
         public Queue<int> orderedNotes = new Queue<int>();
         public Dictionary<int, Stopwatch> currentNote;
 
-        public int BeatsPerMinute { get; }
-        public NoteEstimator noteEstimator;
+        int BeatsPerMinute;
+        NoteEstimator noteEstimator;
+        Note note = new Note();
+        SheetMusic sheetForm;
 
-        public Piano(int bpm)
+        public Piano(int bpm, SheetMusic form)
         {
             InitializeComponent();
             BeatsPerMinute = bpm;
+            sheetForm = form;
             noteEstimator = new NoteEstimator(bpm);
+            sheetForm.Show();
 
             for (int i = 0; i < oldTimers.Length; i++)
             {
@@ -78,7 +83,8 @@ namespace NoteDetection
             orderedNotes.Enqueue(e.NoteID);
             System.Diagnostics.Debug.WriteLine($"{e.NoteID } pressed note");
             outDevice.Send(new ChannelMessage(ChannelCommand.NoteOn, 0, e.NoteID, 127));
-            
+            Global.Played = true;
+
         }
 
         private void PianoControl_PianoKeyUp(object sender, PianoKeyEventArgs e)
@@ -90,8 +96,10 @@ namespace NoteDetection
             System.Diagnostics.Debug.WriteLine($"{currentTimers[e.NoteID].ElapsedMilliseconds } current pressed milli time");
             DisplayBPM();
             long duration = currentTimers[e.NoteID].ElapsedMilliseconds.Round(100);
-            System.Diagnostics.Debug.WriteLine($"{noteEstimator.GetNoteFromDuration(duration) } note");
+            Timing symbols = noteEstimator.GetNoteFromDuration(duration);
+            Global.Symbol = note.GetNoteSymbol(symbols);
             oldTimers[e.NoteID].Reset();
+            Global.Played = false;
         }
 
         private void pianoControl_KeyDown(object sender, KeyEventArgs e)
