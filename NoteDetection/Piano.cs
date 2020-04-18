@@ -20,8 +20,6 @@ namespace NoteDetection
 
         Stopwatch[] oldTimers = new Stopwatch[127]; 
         public Stopwatch[] currentTimers = new Stopwatch[127];
-        public Queue<int> orderedNotes = new Queue<int>();
-        public Dictionary<int, Stopwatch> currentNote;
 
         int BeatsPerMinute;
         NoteEstimator noteEstimator;
@@ -83,7 +81,6 @@ namespace NoteDetection
         private void PianoControl_PianoKeyDown(object sender, PianoKeyEventArgs e)
         {
             oldTimers[e.NoteID].Start();
-            orderedNotes.Enqueue(e.NoteID);
             outDevice.Send(new ChannelMessage(ChannelCommand.NoteOn, 0, e.NoteID, 127));
             Global.Played = true;
             offset += 40;
@@ -96,7 +93,6 @@ namespace NoteDetection
             outDevice.Send(new ChannelMessage(ChannelCommand.NoteOff, 0, e.NoteID, 0));
 
             currentTimers[e.NoteID] = oldTimers[e.NoteID];
-            CurrentPlayedNote(currentTimers[e.NoteID], orderedNotes);
             long duration = currentTimers[e.NoteID].ElapsedMilliseconds.Round(100);
 
             Timing symbols = noteEstimator.GetNoteFromDuration(duration);
@@ -124,14 +120,6 @@ namespace NoteDetection
         {
             pianoControl.ReleasePianoKey(e.KeyCode);
             base.OnKeyUp(e);
-        }
-
-        public Dictionary<int, Stopwatch> CurrentPlayedNote(Stopwatch timers, Queue<int> ordered)
-        {
-            currentNote = new Dictionary<int, Stopwatch>();
-            int noteID = ordered.Dequeue();
-            currentNote.Add(noteID, timers);        
-            return currentNote;
         }
 
         private void Piano_FormClosed(object sender, FormClosedEventArgs e)

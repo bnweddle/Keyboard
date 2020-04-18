@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace NoteDetection
 {
+    /// <summary>
+    /// Need to move this to be used with Symbol
+    /// </summary>
     public class Treble
     {
         /// <summary>
