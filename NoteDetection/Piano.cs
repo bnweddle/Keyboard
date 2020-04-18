@@ -19,7 +19,7 @@ namespace NoteDetection
         private OutputDevice outDevice;
 
         Stopwatch[] oldTimers = new Stopwatch[127]; 
-        public Stopwatch[] currentTimers = new Stopwatch[127];
+        Stopwatch[] currentTimers = new Stopwatch[127];
 
         int BeatsPerMinute;
         NoteEstimator noteEstimator;
@@ -70,6 +70,7 @@ namespace NoteDetection
         private void PianoControl_PianoKeyDown(object sender, PianoKeyEventArgs e)
         {
             oldTimers[e.NoteID].Start();
+            System.Diagnostics.Debug.WriteLine($"{e.NoteID} noteID");
             outDevice.Send(new ChannelMessage(ChannelCommand.NoteOn, 0, e.NoteID, 127));
             Global.Played = true;
             offset += 40;
@@ -91,7 +92,6 @@ namespace NoteDetection
                 thirds = false;
 
             System.Diagnostics.Debug.WriteLine($"{symbols } timing");
-            System.Diagnostics.Debug.WriteLine($"{thirds } ");
 
             Global.Symbol = note.GetNoteSymbol(symbols);
             sheetForm.UpdatePaint(offset, thirds);

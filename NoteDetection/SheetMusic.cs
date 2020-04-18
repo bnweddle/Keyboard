@@ -27,8 +27,12 @@ namespace NoteDetection
         FontFamily ff;
         Font font;
 
-        Symbol treble = new Symbol("\uD834\uDD1E", 75, 55, 25);
-        Symbol bass = new Symbol("\uD834\uDD22", 75, 50, 180);
+        Symbol treble = new Symbol("\uD834\uDD1E", 75, 55, 160);
+        Symbol bass = new Symbol("\uD834\uDD22", 75, 50, 315);
+
+        Symbol upperTreble = new Symbol("\uD834\uDD1E", 75, 55, 55);
+        Symbol lowerBass = new Symbol("\uD834\uDD22", 75, 50, 420);
+
         List<Symbol> DrawingNote = new List<Symbol>();
         Graphics g;
         int offset;
@@ -69,6 +73,9 @@ namespace NoteDetection
 
             treble.DrawSymbol(g, font, ff, 5, 25);
             bass.DrawSymbol(g, font, ff, 10, 30);
+            upperTreble.DrawSymbol(g, font, ff, 5, 25);
+            lowerBass.DrawSymbol(g, font, ff, 10, 30);
+
         }
 
         /// <summary>
@@ -103,12 +110,18 @@ namespace NoteDetection
         {
             int i;
             // draw some staff lines, 900 will need to change as user is playing, want to scroll with sheet music as user plays as well
-            for (i = 3; i < 8; i++)
-                g.DrawLine(Pens.Black, 0, i * staffHeight, this.Size.Width, i * staffHeight);
-            for (; i < 13; i++)
-                g.DrawLine(Pens.Wheat, 0, i * staffHeight, this.Size.Width, i * staffHeight);
-            for (; i < 18; i++)
-                g.DrawLine(Pens.Black, 0, i * staffHeight, this.Size.Width, i * staffHeight);
+            for (i = 0; i < 3; i++)
+                g.DrawLine(Pens.White, 0, i * staffHeight, 900, i * staffHeight); // White space for extra room
+            for (; i < 12; i++)
+                g.DrawLine(Pens.Wheat, 0, i * staffHeight, 900, i * staffHeight); // High notes
+            for (; i < 17; i++)
+                g.DrawLine(Pens.Black, 0, i * staffHeight, 900, i * staffHeight); // Middle treble clef range
+            for (; i < 22; i++)
+                g.DrawLine(Pens.White, 0, i * staffHeight, 900, i * staffHeight); // Middle notes
+            for (; i < 27; i++)
+                g.DrawLine(Pens.Black, 0, i * staffHeight, 900, i * staffHeight); // Middle bass clef range
+            for (; i < 33; i++)
+                g.DrawLine(Pens.Wheat, 0, i * staffHeight, 900, i * staffHeight); // Low notes
         }
     }
 }
