@@ -4,11 +4,12 @@ using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 using System.Drawing.Text;
+using System.Collections.Generic;
 
 namespace NoteDetection
 {
     public partial class SheetMusic : Form
-    {
+    {     
         private int staffHeight = 15;
 
         [DllImport("gdi32.dll")]
@@ -28,24 +29,36 @@ namespace NoteDetection
 
         Treble treble = new Treble();
         Bass bass = new Bass();
-        Symbol symbol = new Symbol();
+        Symbol symbol;
+        List<Symbol> DrawingNote = new List<Symbol>();
 
         protected override void OnPaint(PaintEventArgs e)
+        {          
+            base.OnPaint(e);   
+        }
+
+        public void UpdatePaint()
         {
-            e.Graphics.TranslateTransform(this.AutoScrollPosition.X, this.AutoScrollPosition.Y);
-            base.OnPaint(e);
+            Invalidate();
+            Update();
         }
 
         private void SheetMusic_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
+            e.Graphics.TranslateTransform(this.AutoScrollPosition.X, this.AutoScrollPosition.Y);
             g.SmoothingMode = SmoothingMode.HighQuality;
             DrawLines(g);
+
+            symbol = new Symbol();
+            symbol.DrawSymbol(e.Graphics, font, ff, Global.Symbol, treble.X + 20, treble.Y);
+            System.Diagnostics.Debug.WriteLine($"{Global.Symbol } note ");
 
             treble.DrawTreble(g, font, ff);
             bass.DrawTreble(g, font, ff);
 
-            symbol.DrawSymbol(g, font, ff, Global.Symbol, treble.X, treble.Y);
+
+            //Refresh();
 
             // draw four semi-random full and quarter notes
             /* g.DrawEllipse(_notePen, 20, 2 * _staffHght, _noteWdth, _noteHght);

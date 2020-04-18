@@ -98,6 +98,7 @@ namespace NoteDetection
             long duration = currentTimers[e.NoteID].ElapsedMilliseconds.Round(100);
             Timing symbols = noteEstimator.GetNoteFromDuration(duration);
             Global.Symbol = note.GetNoteSymbol(symbols);
+            sheetForm.UpdatePaint();
             oldTimers[e.NoteID].Reset();
             Global.Played = false;
         }
