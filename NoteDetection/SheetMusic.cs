@@ -33,20 +33,28 @@ namespace NoteDetection
         List<Point> Points = new List<Point>();
         Graphics g;
         int offset;
+        bool thirds;
 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
         }
 
-        public void UpdatePaint(int off)
+        public void UpdatePaint(int off, bool third)
         {
-            Symbol symbol = new Symbol();
-            symbol.Unicode = Global.Symbol;
+            this.thirds = third;
+            Symbol symbol = new Symbol(Global.Symbol);
             Point point = new Point(off, (int)treble.Y - 5);
-
             DrawingNote.Add(symbol);
             Points.Add(point);
+
+            if (third)
+            {   // For checking if it is a third note to add the dot, position should not change
+                Symbol s = new Symbol("\uD834\uDD58", 25);
+                Point p = new Point(point.X + 30, point.Y + 48);
+                DrawingNote.Add(s);
+                Points.Add(p);
+            }
 
             offset = off;
             Invalidate();

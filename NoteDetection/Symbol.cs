@@ -15,9 +15,21 @@ namespace NoteDetection
         public float Size { get; set; } = 65;
 
         private Brush noteBrush = Brushes.Black;
+
         private FontStyle fontStyle = FontStyle.Regular;
 
         public string Unicode { get; set; }
+
+        public Symbol(string code, float size)
+        {
+            Unicode = code;
+            Size = size;
+        }
+
+        public Symbol(string code)
+        {
+            Unicode = code;
+        }
 
         public void DrawSymbol(Graphics g, Font font, FontFamily ff, string unicode, float x, float y)
         {

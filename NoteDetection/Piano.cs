@@ -29,6 +29,7 @@ namespace NoteDetection
         SheetMusic sheetForm;
 
         private int offset = 75;
+        private bool thirds = false;
 
         public Piano(int bpm, SheetMusic form)
         {
@@ -83,10 +84,9 @@ namespace NoteDetection
         {
             oldTimers[e.NoteID].Start();
             orderedNotes.Enqueue(e.NoteID);
-            System.Diagnostics.Debug.WriteLine($"{e.NoteID } pressed note");
             outDevice.Send(new ChannelMessage(ChannelCommand.NoteOn, 0, e.NoteID, 127));
             Global.Played = true;
-            offset += 30;
+            offset += 40;
 
         }
 
@@ -98,9 +98,18 @@ namespace NoteDetection
             currentTimers[e.NoteID] = oldTimers[e.NoteID];
             CurrentPlayedNote(currentTimers[e.NoteID], orderedNotes);
             long duration = currentTimers[e.NoteID].ElapsedMilliseconds.Round(100);
+
             Timing symbols = noteEstimator.GetNoteFromDuration(duration);
+            if (symbols == Timing.ThirdHalf || symbols == Timing.ThirdQuart)
+                thirds = true;
+            else
+                thirds = false;
+
+            System.Diagnostics.Debug.WriteLine($"{symbols } timing");
+            System.Diagnostics.Debug.WriteLine($"{thirds } ");
+
             Global.Symbol = note.GetNoteSymbol(symbols);
-            sheetForm.UpdatePaint(offset);
+            sheetForm.UpdatePaint(offset, thirds);
             oldTimers[e.NoteID].Reset();
             Global.Played = false;
         }
