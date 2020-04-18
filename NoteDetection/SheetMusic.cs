@@ -27,10 +27,9 @@ namespace NoteDetection
         FontFamily ff;
         Font font;
 
-        Treble treble = new Treble();
-        Bass bass = new Bass();
+        Symbol treble = new Symbol("\uD834\uDD1E", 75, 55, 25);
+        Symbol bass = new Symbol("\uD834\uDD22", 75, 50, 180);
         List<Symbol> DrawingNote = new List<Symbol>();
-        List<Point> Points = new List<Point>();
         Graphics g;
         int offset;
         bool thirds;
@@ -43,17 +42,13 @@ namespace NoteDetection
         public void UpdatePaint(int off, bool third)
         {
             this.thirds = third;
-            Symbol symbol = new Symbol(Global.Symbol);
-            Point point = new Point(off, (int)treble.Y - 5);
+            Symbol symbol = new Symbol(Global.Symbol, 65, off, (int)treble.Y - 5);
             DrawingNote.Add(symbol);
-            Points.Add(point);
 
             if (third)
             {   // For checking if it is a third note to add the dot, position should not change
-                Symbol s = new Symbol("\uD834\uDD58", 25);
-                Point p = new Point(point.X + 30, point.Y + 48);
+                Symbol s = new Symbol("\uD834\uDD58", 25, symbol.X + 30, (float)symbol.Y + 48);
                 DrawingNote.Add(s);
-                Points.Add(p);
             }
 
             offset = off;
@@ -69,12 +64,11 @@ namespace NoteDetection
 
             for(int i = 0; i < DrawingNote.Count; i++)
             {
-                DrawingNote[i].DrawSymbol(g, font, ff, DrawingNote[i].Unicode, Points[i].X, Points[i].Y);
-            }
-                
+                DrawingNote[i].DrawSymbol(g, font, ff, DrawingNote[i].Unicode,DrawingNote[i].X, DrawingNote[i].Y);
+            }              
 
-            treble.DrawTreble(g, font, ff);
-            bass.DrawTreble(g, font, ff);
+            treble.DrawSymbol(g, font, ff, 5, 25);
+            bass.DrawSymbol(g, font, ff, 10, 30);
         }
 
         /// <summary>
