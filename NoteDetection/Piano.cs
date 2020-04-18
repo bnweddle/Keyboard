@@ -13,7 +13,7 @@ namespace NoteDetection
 {
     public partial class Piano : Form
     {
-        string timeSymbol;
+
         private int outDeviceID = 0;
 
         private OutputDevice outDevice;
@@ -27,6 +27,8 @@ namespace NoteDetection
         NoteEstimator noteEstimator;
         Note note = new Note();
         SheetMusic sheetForm;
+
+        private int offset = 75;
 
         public Piano(int bpm, SheetMusic form)
         {
@@ -84,6 +86,7 @@ namespace NoteDetection
             System.Diagnostics.Debug.WriteLine($"{e.NoteID } pressed note");
             outDevice.Send(new ChannelMessage(ChannelCommand.NoteOn, 0, e.NoteID, 127));
             Global.Played = true;
+            offset += 30;
 
         }
 
@@ -91,14 +94,13 @@ namespace NoteDetection
         {   
             oldTimers[e.NoteID].Stop();       
             outDevice.Send(new ChannelMessage(ChannelCommand.NoteOff, 0, e.NoteID, 0));
+
             currentTimers[e.NoteID] = oldTimers[e.NoteID];
             CurrentPlayedNote(currentTimers[e.NoteID], orderedNotes);
-            System.Diagnostics.Debug.WriteLine($"{currentTimers[e.NoteID].ElapsedMilliseconds } current pressed milli time");
-            DisplayBPM();
             long duration = currentTimers[e.NoteID].ElapsedMilliseconds.Round(100);
             Timing symbols = noteEstimator.GetNoteFromDuration(duration);
             Global.Symbol = note.GetNoteSymbol(symbols);
-            sheetForm.UpdatePaint();
+            sheetForm.UpdatePaint(offset);
             oldTimers[e.NoteID].Reset();
             Global.Played = false;
         }

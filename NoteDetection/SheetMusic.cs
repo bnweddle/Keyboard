@@ -29,43 +29,44 @@ namespace NoteDetection
 
         Treble treble = new Treble();
         Bass bass = new Bass();
-        Symbol symbol;
         List<Symbol> DrawingNote = new List<Symbol>();
+        List<Point> Points = new List<Point>();
+        Graphics g;
+        int offset;
 
         protected override void OnPaint(PaintEventArgs e)
-        {          
-            base.OnPaint(e);   
+        {
+            base.OnPaint(e);
         }
 
-        public void UpdatePaint()
+        public void UpdatePaint(int off)
         {
+            Symbol symbol = new Symbol();
+            symbol.Unicode = Global.Symbol;
+            Point point = new Point(off, (int)treble.Y - 5);
+
+            DrawingNote.Add(symbol);
+            Points.Add(point);
+
+            offset = off;
             Invalidate();
-            Update();
         }
 
         private void SheetMusic_Paint(object sender, PaintEventArgs e)
         {
-            Graphics g = e.Graphics;
-            e.Graphics.TranslateTransform(this.AutoScrollPosition.X, this.AutoScrollPosition.Y);
+            g = e.Graphics;
+            g.TranslateTransform(this.AutoScrollPosition.X, this.AutoScrollPosition.Y);
             g.SmoothingMode = SmoothingMode.HighQuality;
             DrawLines(g);
 
-            symbol = new Symbol();
-            symbol.DrawSymbol(e.Graphics, font, ff, Global.Symbol, treble.X + 20, treble.Y);
-            System.Diagnostics.Debug.WriteLine($"{Global.Symbol } note ");
+            for(int i = 0; i < DrawingNote.Count; i++)
+            {
+                DrawingNote[i].DrawSymbol(g, font, ff, DrawingNote[i].Unicode, Points[i].X, Points[i].Y);
+            }
+                
 
             treble.DrawTreble(g, font, ff);
             bass.DrawTreble(g, font, ff);
-
-
-            //Refresh();
-
-            // draw four semi-random full and quarter notes
-            /* g.DrawEllipse(_notePen, 20, 2 * _staffHght, _noteWdth, _noteHght);
-             g.DrawEllipse(_notePen, 50, 4 * _staffHght, _noteWdth, _noteHght);
-
-             g.FillEllipse(_noteBrush, 100, 2 * _staffHght, _noteWdth, _noteHght);
-             g.FillEllipse(_noteBrush, 150, 4 * _staffHght, _noteWdth, _noteHght);*/
         }
 
         /// <summary>
@@ -107,6 +108,5 @@ namespace NoteDetection
             for (; i < 18; i++)
                 g.DrawLine(Pens.Black, 0, i * staffHeight, this.Size.Width, i * staffHeight);
         }
-
     }
 }

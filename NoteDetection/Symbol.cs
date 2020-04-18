@@ -12,10 +12,12 @@ namespace NoteDetection
         /// <summary>
         /// The size of the font
         /// </summary>
-        public float Size { get; set; } = 75;
+        public float Size { get; set; } = 65;
 
         private Brush noteBrush = Brushes.Black;
         private FontStyle fontStyle = FontStyle.Regular;
+
+        public string Unicode { get; set; }
 
         public void DrawSymbol(Graphics g, Font font, FontFamily ff, string unicode, float x, float y)
         {
