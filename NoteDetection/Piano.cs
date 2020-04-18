@@ -67,17 +67,6 @@ namespace NoteDetection
             base.OnLoad(e);
         }
 
-        public void DisplayBPM()
-        {
-            double[] beats = BeatsPerMinute.ApproxTime();
-            System.Diagnostics.Debug.WriteLine($"{ beats[0]} quart note");
-            System.Diagnostics.Debug.WriteLine($"{ beats[1]} half note");
-            System.Diagnostics.Debug.WriteLine($"{ beats[2]} eighteth note");
-            System.Diagnostics.Debug.WriteLine($"{ beats[3]} sixteenth note");
-            System.Diagnostics.Debug.WriteLine($"{ beats[4]} third quart note");
-            System.Diagnostics.Debug.WriteLine($"{ beats[5]} whole note");
-        }
-
         private void PianoControl_PianoKeyDown(object sender, PianoKeyEventArgs e)
         {
             oldTimers[e.NoteID].Start();

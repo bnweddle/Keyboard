@@ -29,24 +29,5 @@ namespace NoteDetection
             return (value + 5 * nearest / 10) / nearest * nearest;
         }
 
-        /// <summary>
-        /// Approximates the time that the note is pressed based on the beats per minute
-        /// </summary>
-        /// <param name="bpm">beats per minute indicated by the user in the Start form</param>
-        /// <returns>an int[] holding the approximations for each type of Timing Note</returns>
-        public static double[] ApproxTime(this int bpm)
-        {
-            double[] noteApprox = new double[6];
-            int minute = 60000;
-            noteApprox[0] = minute / bpm;
-            double quartNote = noteApprox[0];    // Quart Note
-            noteApprox[1] = quartNote * 2;       // Half Note
-            noteApprox[2] = quartNote / 2;       // Eighteth Note
-            noteApprox[3] = quartNote / 4;       // Sixteenth Note
-            noteApprox[4] = quartNote * 1.5;     // Third Note
-            noteApprox[5] = quartNote * 4;       // Whole Note
-            return noteApprox;
-        }
-
     }
 }
