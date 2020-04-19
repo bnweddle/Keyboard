@@ -28,12 +28,14 @@ namespace NoteDetection
 
         private int offset = 75;
         private bool thirds = false;
+        private Chromatic black;
 
-        public Piano(int bpm, SheetMusic form)
+        public Piano(int bpm, Chromatic type, SheetMusic form)
         {
             InitializeComponent();
             BeatsPerMinute = bpm;
             sheetForm = form;
+            black = type; 
             noteEstimator = new NoteEstimator(bpm);
             sheetForm.Show();
 

@@ -8,29 +8,6 @@ using System.Threading.Tasks;
 
 namespace NoteDetection
 {
-    public enum Octave
-    {
-        A0,
-        A1,
-        A2,
-        A3,
-        A4,
-        A5,
-        A6,
-        A7,
-        A8
-    };
-
-    public enum Scale
-    {
-        A,
-        B,
-        C,
-        D,
-        E,
-        F,
-        G
-    };
 
     public enum Timing
     {

@@ -7,6 +7,24 @@ using System.Threading.Tasks;
 
 namespace NoteDetection
 {
+    public enum Sharp
+    {
+        Cs,
+        Ds,
+        Fs,
+        Gs,
+        As,
+    }
+
+    public enum Flat
+    {
+        Db,
+        Eb,
+        Gb,
+        Ab,
+        Bb
+    }
+
     public class Symbol
     {
         /// <summary>

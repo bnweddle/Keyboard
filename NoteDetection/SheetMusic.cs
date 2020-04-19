@@ -113,15 +113,28 @@ namespace NoteDetection
             for (i = 0; i < 3; i++)
                 g.DrawLine(Pens.White, 0, i * staffHeight, 900, i * staffHeight); // White space for extra room
             for (; i < 12; i++)
+            {
+                // System.Diagnostics.Debug.WriteLine($"{i * staffHeight } high treble");
                 g.DrawLine(Pens.Wheat, 0, i * staffHeight, 900, i * staffHeight); // High notes
+            }
             for (; i < 17; i++)
+            {
+                // System.Diagnostics.Debug.WriteLine($"{i * staffHeight} middle treble");
                 g.DrawLine(Pens.Black, 0, i * staffHeight, 900, i * staffHeight); // Middle treble clef range
+            }
             for (; i < 22; i++)
                 g.DrawLine(Pens.White, 0, i * staffHeight, 900, i * staffHeight); // Middle notes
             for (; i < 27; i++)
+            {
+                // System.Diagnostics.Debug.WriteLine($"{i * staffHeight} middle bass");
                 g.DrawLine(Pens.Black, 0, i * staffHeight, 900, i * staffHeight); // Middle bass clef range
+            }
             for (; i < 33; i++)
+            {
+                // System.Diagnostics.Debug.WriteLine($"{i * staffHeight} low bass");
                 g.DrawLine(Pens.Wheat, 0, i * staffHeight, 900, i * staffHeight); // Low notes
+            }
+
         }
     }
 }
