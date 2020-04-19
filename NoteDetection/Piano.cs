@@ -104,10 +104,9 @@ namespace NoteDetection
 
             Global.Symbol = note.GetNoteSymbol(symbols);
 
-            sheetForm.SetChromatic(chrom, chromatic);
-
             double[] positions = SetPositions(e.NoteID, chromatic);
-            System.Diagnostics.Debug.WriteLine($"{chromatic } chromatic");
+
+            sheetForm.SetChromatic(chrom, chromatic);
 
             double notePosition = GetPosition(positions, e.NoteID);
 
@@ -153,18 +152,17 @@ namespace NoteDetection
                 }
             }
 
-
+            double currentPosition;
             double[] positions = new double[88];
             double index = 0;
             for(int i = 0; i < positions.Length; i++ )
             {
                 positions[i] = 395 - index;
 
-                if(chrom)
+                if (chrom)
                 {
                     if (type == Chromatic.Sharp)
                     {
-                        index += 7.5;
                         //Need to assign to the last position??
                     }
                     else if (type == Chromatic.Sharp)
