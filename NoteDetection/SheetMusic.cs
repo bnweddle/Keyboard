@@ -38,25 +38,53 @@ namespace NoteDetection
         int offset;
         bool thirds;
 
+        Chromatic chromValue = Chromatic.Natural;
+
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
         }
 
-        public void UpdatePaint(int off, bool third)
+        public void UpdatePaint(int off, bool third, double position)
         {
             this.thirds = third;
-            Symbol symbol = new Symbol(Global.Symbol, 65, off, (int)treble.Y - 5);
+            Symbol symbol = new Symbol(Global.Symbol, 65, off, (float)position);
             DrawingNote.Add(symbol);
 
             if (third)
             {   // For checking if it is a third note to add the dot, position should not change
-                Symbol s = new Symbol("\uD834\uDD58", 25, symbol.X + 30, (float)symbol.Y + 48);
+                Symbol s = new Symbol("\uD834\uDD58", 25, symbol.X + 30, symbol.Y + 48);
+                DrawingNote.Add(s);
+            }
+            if (chromValue == Chromatic.Sharp)
+            {
+                Symbol s = new Symbol("\u266F", 20, symbol.X, symbol.Y + 70);
+                DrawingNote.Add(s);
+            }
+            if (chromValue == Chromatic.Flat)
+            {
+                Symbol s = new Symbol("\u266D", 20, symbol.X, symbol.Y + 70);
                 DrawingNote.Add(s);
             }
 
             offset = off;
             Invalidate();
+        }
+
+        public void SetChromatic(bool isChromatic, Chromatic type)
+        {
+            this.chromValue = type;
+            if(isChromatic)
+            {
+                if (type == Chromatic.Sharp)
+                   this.chromValue = Chromatic.Sharp;
+                else
+                   this.chromValue = Chromatic.Flat;
+            }
+            else
+            {
+                this.chromValue = Chromatic.Natural;
+            }
         }
 
         private void SheetMusic_Paint(object sender, PaintEventArgs e)
@@ -66,10 +94,10 @@ namespace NoteDetection
             g.SmoothingMode = SmoothingMode.HighQuality;
             DrawLines(g);
 
-            for(int i = 0; i < DrawingNote.Count; i++)
+            for (int i = 0; i < DrawingNote.Count; i++)
             {
-                DrawingNote[i].DrawSymbol(g, font, ff, DrawingNote[i].Unicode,DrawingNote[i].X, DrawingNote[i].Y);
-            }              
+                DrawingNote[i].DrawSymbol(g, font, ff, DrawingNote[i].Unicode, DrawingNote[i].X, DrawingNote[i].Y);
+            }
 
             treble.DrawSymbol(g, font, ff, 5, 25);
             bass.DrawSymbol(g, font, ff, 10, 30);
@@ -122,6 +150,9 @@ namespace NoteDetection
                 // System.Diagnostics.Debug.WriteLine($"{i * staffHeight} middle treble");
                 g.DrawLine(Pens.Black, 0, i * staffHeight, 900, i * staffHeight); // Middle treble clef range
             }
+            i = 17;
+            g.DrawLine(Pens.Wheat, 0, i * staffHeight, 900, i * staffHeight); 
+            i++;
             for (; i < 22; i++)
                 g.DrawLine(Pens.White, 0, i * staffHeight, 900, i * staffHeight); // Middle notes
             for (; i < 27; i++)
@@ -134,7 +165,6 @@ namespace NoteDetection
                 // System.Diagnostics.Debug.WriteLine($"{i * staffHeight} low bass");
                 g.DrawLine(Pens.Wheat, 0, i * staffHeight, 900, i * staffHeight); // Low notes
             }
-
         }
     }
 }

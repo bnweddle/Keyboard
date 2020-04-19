@@ -28,14 +28,15 @@ namespace NoteDetection
 
         private int offset = 75;
         private bool thirds = false;
-        private Chromatic black;
+        private bool chrom = false;
+        private Chromatic chromatic = Chromatic.Natural;
 
         public Piano(int bpm, Chromatic type, SheetMusic form)
         {
             InitializeComponent();
             BeatsPerMinute = bpm;
             sheetForm = form;
-            black = type; 
+            chromatic = type; 
             noteEstimator = new NoteEstimator(bpm);
             sheetForm.Show();
 
@@ -96,7 +97,11 @@ namespace NoteDetection
             System.Diagnostics.Debug.WriteLine($"{symbols } timing");
 
             Global.Symbol = note.GetNoteSymbol(symbols);
-            sheetForm.UpdatePaint(offset, thirds);
+            double position = GetPosition(e.NoteID, chromatic);
+
+            sheetForm.SetChromatic(chrom, chromatic);
+            sheetForm.UpdatePaint(offset, thirds, position);
+
             oldTimers[e.NoteID].Reset();
             Global.Played = false;
         }
@@ -116,6 +121,66 @@ namespace NoteDetection
         private void Piano_FormClosed(object sender, FormClosedEventArgs e)
         {
             Environment.Exit(1);
+        }
+
+        public double GetPosition(int note, Chromatic type)
+        {
+            switch (note)
+            {
+                case 60: // C
+                    chrom = false;
+                    return 177.5;
+                case 61: // C# or Db
+                    chrom = true;
+                    if (type == Chromatic.Sharp)
+                        return 177.5;
+                    else
+                        return 170;
+                case 62: // D
+                    chrom = false;
+                    return 170;
+                case 63: // D# or Eb
+                    chrom = true;
+                    if (type == Chromatic.Sharp)
+                        return 170;
+                    else
+                        return 163.5;
+                case 64: // E
+                    chrom = false;
+                    return 163.5;
+                case 65: // F
+                    chrom = false;
+                    return 155;
+                case 66: // F# or Gb
+                    chrom = true;
+                    if (type == Chromatic.Sharp)
+                        return 155;
+                    else
+                        return 147.5;
+                case 67: // 
+                    chrom = false;
+                    return 147.5;
+                case 68: // G# or Ab
+                    chrom = true;
+                    if (type == Chromatic.Sharp)
+                        return 147.5;
+                    else
+                        return 140;
+                case 69: // A
+                    chrom = false;
+                    return 140;
+                case 70: // A# or Bb
+                    chrom = true;
+                    if (type == Chromatic.Sharp)
+                        return 140.5;
+                    else
+                        return 133.5;
+                case 71: // B
+                    chrom = false;
+                    return 133.5;
+            }
+
+            return 80;
         }
     }
 }
