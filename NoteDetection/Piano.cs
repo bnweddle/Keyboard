@@ -138,7 +138,6 @@ namespace NoteDetection
         public double[] SetPositions(int noteID, Chromatic type)
         {
             // Need to check if any black of the black keys values equal noteID
-
             for(int i = 0; i < blackKeys.Length; i++)
             {
                 if(blackKeys[i] == noteID - 21)
@@ -152,25 +151,27 @@ namespace NoteDetection
                 }
             }
 
-            double currentPosition;
             double[] positions = new double[88];
             double index = 0;
-            for(int i = 0; i < positions.Length; i++ )
+            int current;
+            for(int i = 0; i < positions.Length; i++)
             {
+                current = i;
                 positions[i] = 395 - index;
 
                 if (chrom)
                 {
                     if (type == Chromatic.Sharp)
                     {
-                        //Need to assign to the last position??
+                        // old position
+                        positions[i] = positions[current - 1];
                     }
                     else if (type == Chromatic.Sharp)
                     {
-                        index -= 7.5; // Flat
+                        positions[i] = positions[current + 1]; 
+                         // new position
                     }
                 }
-
                 index += 7.5;
             }
             return positions;
@@ -181,6 +182,12 @@ namespace NoteDetection
             return positions[noteID - 21];
         }
 
+        /// <summary>
+        /// Using as a guide for now
+        /// </summary>
+        /// <param name="note"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public double GetPosition(int note, Chromatic type)
         {
             switch (note)
