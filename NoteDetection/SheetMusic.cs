@@ -71,7 +71,7 @@ namespace NoteDetection
             Invalidate();
         }
 
-        public void SetChromatic(bool isChromatic, Chromatic type)
+        public bool SetChromatic(bool isChromatic, Chromatic type)
         {
             this.chromValue = type;
             if(isChromatic)
@@ -85,6 +85,8 @@ namespace NoteDetection
             {
                 this.chromValue = Chromatic.Natural;
             }
+
+            return isChromatic;
         }
 
         private void SheetMusic_Paint(object sender, PaintEventArgs e)

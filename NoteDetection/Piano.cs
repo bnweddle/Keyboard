@@ -21,6 +21,12 @@ namespace NoteDetection
         Stopwatch[] oldTimers = new Stopwatch[127]; 
         Stopwatch[] currentTimers = new Stopwatch[127];
 
+        int[] blackKeys = new int[36]
+        {
+            1, 3, 6, 8, 10, 13, 15, 18, 20, 22, 25, 27, 30, 32, 34, 37, 39, 42, 44, 46, 49,
+            51, 54, 56, 58, 61, 63, 66, 68, 70, 73, 75, 78, 80, 82, 85
+        };
+
         int BeatsPerMinute;
         NoteEstimator noteEstimator;
         Note note = new Note();
@@ -97,10 +103,17 @@ namespace NoteDetection
             System.Diagnostics.Debug.WriteLine($"{symbols } timing");
 
             Global.Symbol = note.GetNoteSymbol(symbols);
-            double position = GetPosition(e.NoteID, chromatic);
 
             sheetForm.SetChromatic(chrom, chromatic);
-            sheetForm.UpdatePaint(offset, thirds, position);
+
+            double[] positions = SetPositions(e.NoteID, chromatic);
+            System.Diagnostics.Debug.WriteLine($"{chromatic } chromatic");
+
+            double notePosition = GetPosition(positions, e.NoteID);
+
+            System.Diagnostics.Debug.WriteLine($"{notePosition } Position");
+
+            sheetForm.UpdatePaint(offset, thirds, notePosition);
 
             oldTimers[e.NoteID].Reset();
             Global.Played = false;
@@ -123,10 +136,57 @@ namespace NoteDetection
             Environment.Exit(1);
         }
 
+        public double[] SetPositions(int noteID, Chromatic type)
+        {
+            // Need to check if any black of the black keys values equal noteID
+
+            for(int i = 0; i < blackKeys.Length; i++)
+            {
+                if(blackKeys[i] == noteID - 21)
+                {
+                    chrom = true;
+                    break;
+                }
+                else
+                {
+                    chrom = false;
+                }
+            }
+
+
+            double[] positions = new double[88];
+            double index = 0;
+            for(int i = 0; i < positions.Length; i++ )
+            {
+                positions[i] = 395 - index;
+
+                if(chrom)
+                {
+                    if (type == Chromatic.Sharp)
+                    {
+                        index += 7.5;
+                        //Need to assign to the last position??
+                    }
+                    else if (type == Chromatic.Sharp)
+                    {
+                        index -= 7.5; // Flat
+                    }
+                }
+
+                index += 7.5;
+            }
+            return positions;
+        }
+
+        public double GetPosition(double[] positions, int noteID)
+        {
+            return positions[noteID - 21];
+        }
+
         public double GetPosition(int note, Chromatic type)
         {
             switch (note)
-            {
+            {   // Middle scale
                 case 60: // C
                     chrom = false;
                     return 177.5;
@@ -179,7 +239,6 @@ namespace NoteDetection
                     chrom = false;
                     return 133.5;
             }
-
             return 80;
         }
     }
