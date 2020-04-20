@@ -65,7 +65,7 @@ namespace NoteDetection
             for (int i = 0; i < positions.Length; i++)
             {
                 // start position will need to change for the left hand 
-                positions[i] = 410 - index;
+                positions[i] = 425 - index;
 
                 if (whitePressed != -1)
                 {

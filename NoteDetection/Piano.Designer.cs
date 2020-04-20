@@ -53,6 +53,8 @@
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1924, 205);
             this.Controls.Add(this.pianoControl);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "Piano";
             this.Text = "Piano";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Piano_FormClosed);
