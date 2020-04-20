@@ -23,8 +23,16 @@ namespace NoteDetection
 
         int[] blackKeys = new int[36]
         {
-            1, 3, 6, 8, 10, 13, 15, 18, 20, 22, 25, 27, 30, 32, 34, 37, 39, 42, 44, 46, 49,
-            51, 54, 56, 58, 61, 63, 66, 68, 70, 73, 75, 78, 80, 82, 85
+            1, 4, 6, 9, 11, 13, 16, 18, 21, 23, 25, 28, 30, 33, 35, 37, 40, 42, 45, 47, 49,
+            52, 54, 57, 59, 61, 64, 66, 69, 71, 73, 76, 78, 81, 83, 85
+        };
+
+        // Probably won't need
+        int[] whiteKeys = new int[52]
+        {
+            0, 2, 3, 5, 7, 8, 10, 12, 14, 15, 17, 19, 20, 22, 24, 26, 27, 29, 31, 32, 34, 36, 
+            38, 39, 41, 43, 44, 46, 48, 50, 51, 53, 55, 56, 58, 60, 62, 63, 65, 67, 68, 70, 72,
+            74, 75, 77, 79, 80, 82, 84, 86, 87       
         };
 
         int BeatsPerMinute;
@@ -36,6 +44,8 @@ namespace NoteDetection
         private bool thirds = false;
         private bool chrom = false;
         private Chromatic chromatic = Chromatic.Natural;
+
+        double[] positions = new double[88];
 
         public Piano(int bpm, Chromatic type, SheetMusic form)
         {
@@ -52,6 +62,7 @@ namespace NoteDetection
                 currentTimers[i] = new Stopwatch();
             }
             this.pianoControl.Size = this.Size;
+
         }
 
         protected override void OnLoad(EventArgs e)
@@ -104,7 +115,10 @@ namespace NoteDetection
 
             Global.Symbol = note.GetNoteSymbol(symbols);
 
-            double[] positions = SetPositions(e.NoteID, chromatic);
+            int pressed = BlackKeyPress(e.NoteID);
+            SetPositions(pressed, chromatic);
+
+            System.Diagnostics.Debug.WriteLine($"{pressed } black note");
 
             sheetForm.SetChromatic(chrom, chromatic);
 
@@ -134,16 +148,16 @@ namespace NoteDetection
         {
             Environment.Exit(1);
         }
-
-        public double[] SetPositions(int noteID, Chromatic type)
+        
+        public int BlackKeyPress(int noteID)
         {
             // Need to check if any black of the black keys values equal noteID
-            for(int i = 0; i < blackKeys.Length; i++)
+            for (int i = 0; i < blackKeys.Length; i++)
             {
-                if(blackKeys[i] == noteID - 21)
+                if (blackKeys[i] == noteID - 21)
                 {
                     chrom = true;
-                    break;
+                    return blackKeys[i];
                 }
                 else
                 {
@@ -151,30 +165,28 @@ namespace NoteDetection
                 }
             }
 
-            double[] positions = new double[88];
-            double index = 0;
-            int current;
-            for(int i = 0; i < positions.Length; i++)
-            {
-                current = i;
-                positions[i] = 395 - index;
+            return 0;
+        }
 
+        public void SetPositions(int pressed, Chromatic type)
+        {
+            double index = 0;
+            for (int i = 0; i < positions.Length; i++)
+            {
+                positions[i] = 395 - index;
+                index += 7.5; // How to fix
                 if (chrom)
                 {
                     if (type == Chromatic.Sharp)
                     {
-                        // old position
-                        positions[i] = positions[current - 1];
+                        positions[i] = positions[pressed - 1];
                     }
-                    else if (type == Chromatic.Sharp)
+                    else if (type == Chromatic.Flat)
                     {
-                        positions[i] = positions[current + 1]; 
-                         // new position
+                        //positions[i] = positions[pressed + 1]; how to do?
                     }
                 }
-                index += 7.5;
             }
-            return positions;
         }
 
         public double GetPosition(double[] positions, int noteID)
