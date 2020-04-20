@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace NoteDetection
 {
+    // Might move to Symbol or something
     public enum Hand
     {
         Right,
         Left
     }
-    
 
     public enum Timing
     {
@@ -66,6 +66,7 @@ namespace NoteDetection
             return unicode;
         }
 
+        /// THIS IS NOT USED AS OF YET
         public string GetChromaticSymbol(Chromatic symbol)
         {
             string unicode = "";
@@ -82,6 +83,37 @@ namespace NoteDetection
                     break;
             }
             return unicode;
+        }
+
+        public Image GetImage(Timing symbol)
+        {
+            Image image = null;
+            switch (symbol)
+            {
+                case Timing.Sixteenth:
+                    image = Properties.Resources.leftSixteen;
+                    break;
+                case Timing.Eighth:
+                    image = Properties.Resources.leftEight;
+                    break;
+                case Timing.Quarter:
+                    image = Properties.Resources.leftFour;
+                    break;
+                case Timing.ThirdQuart:
+                    image = Properties.Resources.leftFour; // Need a dot beside it
+                    break;
+                case Timing.Half:
+                    image = Properties.Resources.leftHalf;
+                    break;
+                case Timing.ThirdHalf:
+                    image = Properties.Resources.leftHalf; // Need a dot beside it
+                    break;
+                case Timing.Whole:
+                    image = Properties.Resources.whole; // size differently than others will mess things up!!
+                    break;
+            }
+
+            return image;
         }
     }
 }

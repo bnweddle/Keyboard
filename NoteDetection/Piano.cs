@@ -80,7 +80,6 @@ namespace NoteDetection
             System.Diagnostics.Debug.WriteLine($"{e.NoteID} noteID");
             outDevice.Send(new ChannelMessage(ChannelCommand.NoteOn, 0, e.NoteID, 127));
             offset += 40;
-
         }
 
         private void PianoControl_PianoKeyUp(object sender, PianoKeyEventArgs e)
@@ -99,8 +98,6 @@ namespace NoteDetection
 
             System.Diagnostics.Debug.WriteLine($"{symbols } timing");
 
-            Global.Symbol = note.GetNoteSymbol(symbols);
-
             whitePressed = keys.WhiteKeyPress(e.NoteID, out chrom);
             blackPressed = keys.BlackKeyPress(e.NoteID, out chrom);
             keys.SetPositions(blackPressed, whitePressed, chromatic, chrom);
@@ -109,6 +106,11 @@ namespace NoteDetection
             System.Diagnostics.Debug.WriteLine($"{blackPressed } black note");
 
             sheetForm.SetChromatic(chrom, chromatic);
+
+            // Globally shared variables
+            Global.Symbol = note.GetNoteSymbol(symbols);
+            Global.Chromatic = note.GetChromaticSymbol(chromatic);
+            Global.Image = note.GetImage(symbols);
 
             sheetForm.UpdatePaint(offset, thirds, keys.GetPosition(e.NoteID));
 

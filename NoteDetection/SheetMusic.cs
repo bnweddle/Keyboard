@@ -14,7 +14,6 @@ namespace NoteDetection
         private int staffWidth = 900;
         private int scrollWidth = 1200;
 
-
         private int scroll = 0;
 
         [DllImport("gdi32.dll")]
@@ -37,15 +36,14 @@ namespace NoteDetection
         Symbol upperTreble = new Symbol("\uD834\uDD1E", 75, 55, 55);
         Symbol lowerBass = new Symbol("\uD834\uDD22", 75, 50, 420);
 
-        List<Symbol> DrawingNote = new List<Symbol>();
+        List<Symbol> DrawingRightNotes = new List<Symbol>();
+        List<Symbol> DrawingLeftNotes = new List<Symbol>();
+
         Graphics g;
         int offset;
         bool thirds;
 
         Chromatic chromValue = Chromatic.Natural;
-        Hand hand = Hand.Left;
-
-        Symbol test = new Symbol("leftEight.png");
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -54,31 +52,46 @@ namespace NoteDetection
 
         public void UpdatePaint(int off, bool third, double position)
         {
-            this.thirds = third;
-            Symbol symbol = new Symbol(Global.Symbol, 65, off, (float)position);
-            DrawingNote.Add(symbol);          
-
-            scrollWidth += (int)symbol.Size;
+            scrollWidth += 65;
             staffWidth += 35;
             scroll += 35;
+
+            this.thirds = third;
             this.AutoScrollMinSize = new Size(scrollWidth, this.Size.Height - 100);
             this.AutoScrollPosition = new Point(scroll, 0);
 
-            if (third)
-            {   // For checking if it is a third note to add the dot, position should not change
-                Symbol s = new Symbol("\uD834\uDD58", 25, symbol.X + 30, symbol.Y + 48);
-                DrawingNote.Add(s);
-            }
-            if (chromValue == Chromatic.Sharp)
+            if (Global.Handy == Hand.Right)
             {
-                Symbol s = new Symbol("\u266F", 20, symbol.X, symbol.Y + 70);
-                DrawingNote.Add(s);
+                Symbol symbol = new Symbol(Global.Symbol, 65, off, (float)position);
+                DrawingRightNotes.Add(symbol);
+
+                // Need to think about moving this to the Symbol class if adding Left Hand enum
+                // Because then third dot and chrom value position would need to change.
+                if (third)
+                {   // For checking if it is a third note to add the dot, position should not change
+                    Symbol s = new Symbol("\uD834\uDD58", 25, symbol.X + 30, symbol.Y + 48);
+                    DrawingRightNotes.Add(s);
+                }
+                if (chromValue == Chromatic.Sharp)
+                {
+                    Symbol s = new Symbol(Global.Chromatic, 20, symbol.X, symbol.Y + 70);
+                    DrawingRightNotes.Add(s);
+                }
+                if (chromValue == Chromatic.Flat)
+                {
+                    Symbol s = new Symbol(Global.Chromatic, 20, symbol.X, symbol.Y + 70);
+                    DrawingRightNotes.Add(s);
+                }
             }
-            if (chromValue == Chromatic.Flat)
+            else // Left Hand
             {
-                Symbol s = new Symbol("\u266D", 20, symbol.X, symbol.Y + 70);
-                DrawingNote.Add(s);
+                Symbol left = new Symbol(Global.Image, off, (float)position);
+                DrawingLeftNotes.Add(left);
+
+                //Figure out third, sharps, and flats
             }
+
+            
 
             offset = off;
             Invalidate();
@@ -109,17 +122,20 @@ namespace NoteDetection
             g.SmoothingMode = SmoothingMode.HighQuality;
             DrawLines(g);
 
-            for (int i = 0; i < DrawingNote.Count; i++)
+            for (int i = 0; i < DrawingRightNotes.Count; i++)
             {
-                DrawingNote[i].DrawSymbol(g, font, ff, DrawingNote[i].Unicode, DrawingNote[i].X, DrawingNote[i].Y);
+                DrawingRightNotes[i].DrawSymbol(g, font, ff, DrawingRightNotes[i].Unicode, DrawingRightNotes[i].X, DrawingRightNotes[i].Y);
+            }
+
+            for(int i = 0; i < DrawingLeftNotes.Count; i++)
+            {
+                DrawingLeftNotes[i].DrawSymbol(g, DrawingLeftNotes[i].X, DrawingLeftNotes[i].Y, 20, 60);
             }
 
             treble.DrawSymbol(g, font, ff, 5, 25);
             bass.DrawSymbol(g, font, ff, 10, 30);
             upperTreble.DrawSymbol(g, font, ff, 5, 25);
             lowerBass.DrawSymbol(g, font, ff, 10, 30);
-
-            //test.DrawSymbol(g, 40, 40);
 
         }
 

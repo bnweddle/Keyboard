@@ -60,9 +60,11 @@ namespace NoteDetection
 
         public void SetPositions(int blackPressed, int whitePressed, Chromatic type, bool chrom)
         {
+            
             double index = 0;
             for (int i = 0; i < positions.Length; i++)
             {
+                // start position will need to change for the left hand 
                 positions[i] = 410 - index;
 
                 if (whitePressed != -1)
@@ -70,23 +72,31 @@ namespace NoteDetection
                     index = 0;
                     index = whitePressed * 7.5;
 
-                    if (positions[i] <= 237.5)
+                    if (positions[i] <= 237.5) 
                     {
                         positions[i] -= 60; // move to the g clef
+                        Global.Handy = Hand.Right;
+                    }
+                    else
+                    {
+                        Global.Handy = Hand.Left;
                     }
                 }
 
                 if (chrom)
                 {
+                    // LIMITATION!!! currently, must not click sharps/flats notes first.
                     if (type == Chromatic.Sharp)
                     {
                         // only works if you hit note after it
+                        // Need to come up with index  calculation for sharps
                         positions[i] = positions[blackPressed - 1]; // sharps, same as before note
                         i++;
                     }
                     else if (type == Chromatic.Flat)
                     {
                         // only works if you hit note before it
+                        // Need to come up with index calculation for flats
                         positions[i] = positions[blackPressed + 1]; // flats, same as after note
                         i++;
                     }

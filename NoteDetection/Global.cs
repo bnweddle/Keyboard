@@ -13,7 +13,11 @@ namespace NoteDetection
 
         public static string Symbol { get; set; }
 
-        public static Image GetImage { get; set; }
+        public static Image Image { get; set; }
+
+        public static string Chromatic { get; set; }
+
+        public static Hand Handy { get; set; }
 
         /// <summary>
         /// Round to the nearest 1000s, 100s, 10s. Using to Approximate the time for the Beats Per Minute

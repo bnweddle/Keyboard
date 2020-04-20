@@ -26,6 +26,11 @@ namespace NoteDetection
         public float Y { get; set; }
 
         /// <summary>
+        /// The image for the left hand notes
+        /// </summary>
+        public Image Image { get; set; }
+
+        /// <summary>
         /// The brush the paint with
         /// </summary>
         private Brush noteBrush = Brushes.Black;
@@ -48,9 +53,11 @@ namespace NoteDetection
             Y = y;
         }
 
-        public Symbol(string code)
+        public Symbol(Image image, float x, float y)
         {
-            Unicode = code;
+            Image = image;
+            X = x;
+            Y = y;
         }
 
         public void DrawSymbol(Graphics g, Font font, FontFamily ff, string unicode, float x, float y)
@@ -59,9 +66,10 @@ namespace NoteDetection
             g.DrawString(unicode, font, noteBrush, x, y);
         }
 
-        public void DrawSymbol(Graphics g, Image image, float x, float y)
+        public void DrawSymbol(Graphics g, float x, float y, float width, float height)
         {
-            g.DrawImage(image, x, y, 20, 60);
+            // 20, 60 for regular notes, not sure about whole note
+            g.DrawImage(this.Image, x, y, width, height);
         }
 
         public void DrawSymbol(Graphics g, Font font, FontFamily ff, int xOffset, int yOffset)
