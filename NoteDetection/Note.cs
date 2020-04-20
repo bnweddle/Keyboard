@@ -85,35 +85,42 @@ namespace NoteDetection
             return unicode;
         }
 
-        public Image GetImage(Timing symbol)
+        public Image GetImage(Timing symbol, out Timing time)
         {
             Image image = null;
+            time = Timing.Quarter;
             switch (symbol)
             {
                 case Timing.Sixteenth:
+                    time = Timing.Sixteenth;
                     image = Properties.Resources.leftSixteen;
                     break;
                 case Timing.Eighth:
+                    time = Timing.Eighth;
                     image = Properties.Resources.leftEight;
                     break;
                 case Timing.Quarter:
+                    time = Timing.Quarter;
                     image = Properties.Resources.leftFour;
                     break;
                 case Timing.ThirdQuart:
+                    time = Timing.ThirdQuart;
                     image = Properties.Resources.leftFour; // Need a dot beside it
                     break;
                 case Timing.Half:
+                    time = Timing.Half;
                     image = Properties.Resources.leftHalf;
                     break;
                 case Timing.ThirdHalf:
+                    time = Timing.ThirdHalf;
                     image = Properties.Resources.leftHalf; // Need a dot beside it
                     break;
                 case Timing.Whole:
                     // Maybe something about Centering the image where I want it? Ask Professor.
+                    time = Timing.Whole;
                     image = Properties.Resources.whole; // size differently than others will mess things up!!
                     break;
             }
-
             return image;
         }
     }

@@ -43,6 +43,9 @@ namespace NoteDetection
         int offset;
         bool thirds;
 
+        int handOffsetX;
+        int handOffsetY;
+
         Chromatic chromValue = Chromatic.Natural;
 
         protected override void OnPaint(PaintEventArgs e)
@@ -59,39 +62,51 @@ namespace NoteDetection
             this.thirds = third;
             this.AutoScrollMinSize = new Size(scrollWidth, this.Size.Height - 100);
             this.AutoScrollPosition = new Point(scroll, 0);
+            Symbol symbol;
 
             if (Global.Handy == Hand.Right)
             {
-                Symbol symbol = new Symbol(Global.Symbol, 65, off, (float)position);
+                symbol = new Symbol(Global.Symbol, 65, off, (float)position);
                 DrawingRightNotes.Add(symbol);
+                handOffsetX = 0;
+                handOffsetY = 0;
 
-                // Need to think about moving this to the Symbol class if adding Left Hand enum
-                // Because then third dot and chrom value position would need to change.
-                if (third)
-                {   // For checking if it is a third note to add the dot, position should not change
-                    Symbol s = new Symbol("\uD834\uDD58", 25, symbol.X + 30, symbol.Y + 48);
-                    DrawingRightNotes.Add(s);
-                }
-                if (chromValue == Chromatic.Sharp)
-                {
-                    Symbol s = new Symbol(Global.Chromatic, 20, symbol.X, symbol.Y + 70);
-                    DrawingRightNotes.Add(s);
-                }
-                if (chromValue == Chromatic.Flat)
-                {
-                    Symbol s = new Symbol(Global.Chromatic, 20, symbol.X, symbol.Y + 70);
-                    DrawingRightNotes.Add(s);
-                }
             }
             else // Left Hand
             {
-                Symbol left = new Symbol(Global.Image, off, (float)position);
-                DrawingLeftNotes.Add(left);
-
-                //Figure out third, sharps, and flats
+                if (third) handOffsetX = 15; else handOffsetX = 18;
+                handOffsetY = 70;
+                if(Global.Time == Timing.Whole)
+                {
+                    symbol = new Symbol(Global.Image, off, (float)position, 24, 15);
+                    DrawingLeftNotes.Add(symbol);
+                }
+                else
+                {
+                    // All other times
+                    symbol = new Symbol(Global.Image, off, (float)position, 20, 60);
+                    DrawingLeftNotes.Add(symbol);
+                }    
             }
 
-            
+
+            if (third)
+            {   // For checking if it is a third note to add the dot, position should not change         
+                Symbol s = new Symbol("\uD834\uDD58", 25, symbol.X + 30 - handOffsetX, symbol.Y + 48 - handOffsetY);
+                DrawingRightNotes.Add(s);
+            }
+            if (chromValue == Chromatic.Sharp)
+            {
+                Symbol s = new Symbol(Global.Chromatic, 20, symbol.X - handOffsetX, symbol.Y + 70 - handOffsetY);
+                DrawingRightNotes.Add(s);
+            }
+            if (chromValue == Chromatic.Flat)
+            {
+                Symbol s = new Symbol(Global.Chromatic, 20, symbol.X - handOffsetX, symbol.Y + 70 - handOffsetY);
+                DrawingRightNotes.Add(s);
+            }
+
+
 
             offset = off;
             Invalidate();
@@ -129,7 +144,7 @@ namespace NoteDetection
 
             for(int i = 0; i < DrawingLeftNotes.Count; i++)
             {
-                DrawingLeftNotes[i].DrawSymbol(g, DrawingLeftNotes[i].X, DrawingLeftNotes[i].Y, 20, 60);
+                DrawingLeftNotes[i].DrawSymbol(g, DrawingLeftNotes[i].X, DrawingLeftNotes[i].Y, DrawingLeftNotes[i].Width, DrawingLeftNotes[i].Height);
             }
 
             treble.DrawSymbol(g, font, ff, 5, 25);

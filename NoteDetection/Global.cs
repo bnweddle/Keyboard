@@ -19,6 +19,8 @@ namespace NoteDetection
 
         public static Hand Handy { get; set; }
 
+        public static Timing Time { get; set; }
+
         /// <summary>
         /// Round to the nearest 1000s, 100s, 10s. Using to Approximate the time for the Beats Per Minute
         /// Found resource online at

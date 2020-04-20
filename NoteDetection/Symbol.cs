@@ -26,6 +26,16 @@ namespace NoteDetection
         public float Y { get; set; }
 
         /// <summary>
+        /// the width for the image
+        /// </summary>
+        public float Width { get; set; }
+
+        /// <summary>
+        /// the height for the image
+        /// </summary>
+        public float Height { get; set; }
+
+        /// <summary>
         /// The image for the left hand notes
         /// </summary>
         public Image Image { get; set; }
@@ -53,11 +63,13 @@ namespace NoteDetection
             Y = y;
         }
 
-        public Symbol(Image image, float x, float y)
+        public Symbol(Image image, float x, float y, float width, float height)
         {
             Image = image;
             X = x;
             Y = y;
+            Width = width;
+            Height = height;
         }
 
         public void DrawSymbol(Graphics g, Font font, FontFamily ff, string unicode, float x, float y)

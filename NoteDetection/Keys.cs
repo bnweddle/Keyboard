@@ -72,7 +72,7 @@ namespace NoteDetection
                     index = 0;
                     index = whitePressed * 7.5;
 
-                    if (positions[i] <= 237.5) 
+                    if (positions[i] <= 252.5) 
                     {
                         positions[i] -= 60; // move to the g clef
                         Global.Handy = Hand.Right;

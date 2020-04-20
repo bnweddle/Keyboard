@@ -110,7 +110,9 @@ namespace NoteDetection
             // Globally shared variables
             Global.Symbol = note.GetNoteSymbol(symbols);
             Global.Chromatic = note.GetChromaticSymbol(chromatic);
-            Global.Image = note.GetImage(symbols);
+            Timing time;
+            Global.Image = note.GetImage(symbols, out time);
+            Global.Time = time;
 
             sheetForm.UpdatePaint(offset, thirds, keys.GetPosition(e.NoteID));
 
