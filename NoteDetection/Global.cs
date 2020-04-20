@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,9 +10,10 @@ namespace NoteDetection
 {
     public static class Global
     {
-        public static bool Played { get; set; }
 
         public static string Symbol { get; set; }
+
+        public static Image GetImage { get; set; }
 
         /// <summary>
         /// Round to the nearest 1000s, 100s, 10s. Using to Approximate the time for the Beats Per Minute

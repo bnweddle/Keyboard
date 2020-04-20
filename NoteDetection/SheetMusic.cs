@@ -119,7 +119,7 @@ namespace NoteDetection
             upperTreble.DrawSymbol(g, font, ff, 5, 25);
             lowerBass.DrawSymbol(g, font, ff, 10, 30);
 
-            test.DrawSymbol(g, 40, 40);
+            //test.DrawSymbol(g, 40, 40);
 
         }
 
