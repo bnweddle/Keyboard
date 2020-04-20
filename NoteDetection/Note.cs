@@ -18,12 +18,16 @@ namespace NoteDetection
     public enum Timing
     {
         Sixteenth = 0,   // "\uD834\uDD61"
+        ThirdSixteen,
         Eighth,          // "\uD834\uDD60"
+        ThirdEigth,
         Quarter,         // "\uD834\uDD5F"
         ThirdQuart,      // Need a dot beside it
         Half,            // "\uD834\uDD5E"
         ThirdHalf,       // Need a dot beside it
-        Whole            // "\uD834\uDD5D"
+        Whole,            // "\uD834\uDD5D"
+        ThirdWhole
+
     };
 
     public enum Chromatic
@@ -43,7 +47,13 @@ namespace NoteDetection
                 case Timing.Sixteenth:
                     unicode = "\uD834\uDD61";
                     break;
+                case Timing.ThirdSixteen:
+                    unicode = "\uD834\uDD61";
+                    break;
                 case Timing.Eighth:
+                    unicode = "\uD834\uDD60";
+                    break;
+                case Timing.ThirdEigth:
                     unicode = "\uD834\uDD60";
                     break;
                 case Timing.Quarter:
@@ -59,6 +69,9 @@ namespace NoteDetection
                     unicode = "\uD834\uDD5E"; // Need a dot beside it
                     break;
                 case Timing.Whole:
+                    unicode = "\uD834\uDD5D";
+                    break;
+                case Timing.ThirdWhole:
                     unicode = "\uD834\uDD5D";
                     break;
             }
@@ -95,8 +108,16 @@ namespace NoteDetection
                     time = Timing.Sixteenth;
                     image = Properties.Resources.leftSixteen;
                     break;
+                case Timing.ThirdSixteen:
+                    time = Timing.ThirdSixteen;
+                    image = Properties.Resources.leftSixteen;
+                    break;
                 case Timing.Eighth:
                     time = Timing.Eighth;
+                    image = Properties.Resources.leftEight;
+                    break;
+                case Timing.ThirdEigth:
+                    time = Timing.ThirdEigth;
                     image = Properties.Resources.leftEight;
                     break;
                 case Timing.Quarter:
@@ -116,9 +137,12 @@ namespace NoteDetection
                     image = Properties.Resources.leftHalf; // Need a dot beside it
                     break;
                 case Timing.Whole:
-                    // Maybe something about Centering the image where I want it? Ask Professor.
                     time = Timing.Whole;
-                    image = Properties.Resources.whole; // size differently than others will mess things up!!
+                    image = Properties.Resources.whole; // looks a little different from right whole note
+                    break;
+                case Timing.ThirdWhole:
+                    time = Timing.ThirdWhole;
+                    image = Properties.Resources.whole; 
                     break;
             }
             return image;

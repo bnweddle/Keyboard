@@ -48,6 +48,8 @@ namespace NoteDetection
 
         Chromatic chromValue = Chromatic.Natural;
 
+        public Point DeskopLocation { get; internal set; }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -76,22 +78,25 @@ namespace NoteDetection
             {
                 if (third) handOffsetX = 15; else handOffsetX = 18;
                 handOffsetY = 70;
-                if(Global.Time == Timing.Whole)
+
+                // Whole notes must be sized differently
+                if (Global.Time == Timing.Whole || Global.Time == Timing.ThirdWhole)
                 {
                     symbol = new Symbol(Global.Image, off, (float)position, 24, 15);
                     DrawingLeftNotes.Add(symbol);
                 }
                 else
                 {
-                    // All other times
+                    // All other left hand notes
                     symbol = new Symbol(Global.Image, off, (float)position, 20, 60);
                     DrawingLeftNotes.Add(symbol);
-                }    
+                }
             }
 
 
             if (third)
-            {   // For checking if it is a third note to add the dot, position should not change         
+            {   // For checking if it is a third note to add the dot, if whole note it will need to be swifted slightly
+                if (Global.Time == Timing.ThirdWhole) handOffsetX -= 5;
                 Symbol s = new Symbol("\uD834\uDD58", 25, symbol.X + 30 - handOffsetX, symbol.Y + 48 - handOffsetY);
                 DrawingRightNotes.Add(s);
             }

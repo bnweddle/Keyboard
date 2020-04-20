@@ -91,7 +91,8 @@ namespace NoteDetection
             long duration = currentTimers[e.NoteID].ElapsedMilliseconds.Round(100);
 
             Timing symbols = noteEstimator.GetNoteFromDuration(duration);
-            if (symbols == Timing.ThirdHalf || symbols == Timing.ThirdQuart)
+            if (symbols == Timing.ThirdHalf || symbols == Timing.ThirdQuart 
+                || symbols == Timing.ThirdEigth || symbols == Timing.ThirdWhole || symbols == Timing.ThirdSixteen)
                 thirds = true;
             else
                 thirds = false;

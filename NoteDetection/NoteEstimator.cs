@@ -12,16 +12,19 @@ namespace NoteDetection
 
         public NoteEstimator(int bpm)
         {
-            thresholds = new long[7];
+            thresholds = new long[10];
             int minute = 60000;
 
             thresholds[(int)Timing.Sixteenth] = (minute / bpm) / 3;
+            thresholds[(int)Timing.ThirdSixteen] = (minute / bpm) / 2;
             thresholds[(int)Timing.Eighth] = (long)((minute / bpm) / 1.5);
+            thresholds[(int)Timing.ThirdEigth] = (minute / bpm);
             thresholds[(int)Timing.Quarter] = (long)((minute / bpm) * 1.5);
             thresholds[(int)Timing.ThirdQuart] = (long)((minute / bpm) * 2);
             thresholds[(int)Timing.Half] = (minute / bpm) * 3;
             thresholds[(int)Timing.ThirdHalf] = (long)((minute / bpm) * 3.5);
             thresholds[(int)Timing.Whole] = (long)((minute / bpm) * 4.5);
+            thresholds[(int)Timing.ThirdWhole] = (long)((minute / bpm) * 5);
 
         }
 
@@ -33,25 +36,38 @@ namespace NoteDetection
             }
             if(duration < thresholds[1])
             {
-                return Timing.Eighth;
+                return Timing.ThirdSixteen;
             }
-            if(duration < thresholds[2])
+            if (duration < thresholds[2])
             {
-                return Timing.Quarter;
+                return Timing.Eighth;
             }
             if (duration < thresholds[3])
             {
+                return Timing.ThirdEigth;
+            }
+
+            if (duration < thresholds[4])
+            {
+                return Timing.Quarter;
+            }
+            if (duration < thresholds[5])
+            {
                 return Timing.ThirdQuart;
             }
-            if (duration < thresholds[4])
+            if (duration < thresholds[6])
             {
                 return Timing.Half;
             }
-            if(duration < thresholds[5])
+            if(duration < thresholds[7])
             {
                 return Timing.ThirdHalf;
             }
-            return Timing.Whole;
+            if (duration < thresholds[8])
+            {
+                return Timing.Whole;
+            }
+            return Timing.ThirdWhole;
         }
 
     }

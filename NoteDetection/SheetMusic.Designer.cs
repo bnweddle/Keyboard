@@ -36,8 +36,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(900, 703);
+            this.MaximizeBox = false;
             this.Name = "SheetMusic";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "SheetMusic";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.SheetMusic_Paint);
             this.ResumeLayout(false);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +27,9 @@ namespace NoteDetection
                 type = Chromatic.Flat;
 
             SheetMusic sheet = new SheetMusic();
+            sheet.Location = new Point(500, 200);
             Piano piano = new Piano(Convert.ToInt32(BPM.Text), type, sheet);
+            piano.Location = new Point(250, 0);
             System.Diagnostics.Debug.WriteLine($"{type } chromatic");
             piano.Show();
             this.Hide();
