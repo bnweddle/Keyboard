@@ -151,5 +151,17 @@
   <ItemGroup>
     <None Include="Resources\Bb0.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\leftEight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\leftFour.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\leftHalf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\leftSixteen.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

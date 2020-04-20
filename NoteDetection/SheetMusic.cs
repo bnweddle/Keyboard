@@ -43,6 +43,9 @@ namespace NoteDetection
         bool thirds;
 
         Chromatic chromValue = Chromatic.Natural;
+        Hand hand = Hand.Left;
+
+        Symbol test = new Symbol("leftEight.png");
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -53,7 +56,7 @@ namespace NoteDetection
         {
             this.thirds = third;
             Symbol symbol = new Symbol(Global.Symbol, 65, off, (float)position);
-            DrawingNote.Add(symbol);
+            DrawingNote.Add(symbol);          
 
             scrollWidth += (int)symbol.Size;
             staffWidth += 35;
@@ -115,6 +118,8 @@ namespace NoteDetection
             bass.DrawSymbol(g, font, ff, 10, 30);
             upperTreble.DrawSymbol(g, font, ff, 5, 25);
             lowerBass.DrawSymbol(g, font, ff, 10, 30);
+
+            test.DrawSymbol(g, 40, 40);
 
         }
 

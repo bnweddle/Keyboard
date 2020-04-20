@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace NoteDetection
 {
+    public enum Hand
+    {
+        Right,
+        Left
+    }
+    
 
     public enum Timing
     {

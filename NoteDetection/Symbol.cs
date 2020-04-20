@@ -7,23 +7,6 @@ using System.Threading.Tasks;
 
 namespace NoteDetection
 {
-    public enum Sharp
-    {
-        Cs,
-        Ds,
-        Fs,
-        Gs,
-        As,
-    }
-
-    public enum Flat
-    {
-        Db,
-        Eb,
-        Gb,
-        Ab,
-        Bb
-    }
 
     public class Symbol
     {
@@ -76,12 +59,11 @@ namespace NoteDetection
             g.DrawString(unicode, font, noteBrush, x, y);
         }
 
-        /// <summary>
-        /// Draws the treble/Bass symbol on the form with the default time signature
-        /// </summary>
-        /// <param name="g">the graphics to call the draw method</param>
-        /// <param name="font">the font needed to draw the symbol</param>
-        /// <param name="ff">the font family to which the font belongs</param>
+        public void DrawSymbol(Graphics g, Image image, float x, float y)
+        {
+            g.DrawImage(image, x, y, 20, 60);
+        }
+
         public void DrawSymbol(Graphics g, Font font, FontFamily ff, int xOffset, int yOffset)
         {
             font = new Font(ff, this.Size, fontStyle);
