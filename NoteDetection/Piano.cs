@@ -115,10 +115,12 @@ namespace NoteDetection
 
             Global.Symbol = note.GetNoteSymbol(symbols);
 
-            int pressed = BlackKeyPress(e.NoteID);
-            SetPositions(pressed, chromatic);
+            int whitePressed = WhiteKeyPress(e.NoteID);
+            int blackPressed = BlackKeyPress(e.NoteID);
+            SetPositions(blackPressed, whitePressed, chromatic);
 
-            System.Diagnostics.Debug.WriteLine($"{pressed } black note");
+            System.Diagnostics.Debug.WriteLine($"{whitePressed } white note");
+            System.Diagnostics.Debug.WriteLine($"{blackPressed } black note");
 
             sheetForm.SetChromatic(chrom, chromatic);
 
@@ -157,7 +159,7 @@ namespace NoteDetection
                 if (blackKeys[i] == noteID - 21)
                 {
                     chrom = true;
-                    return blackKeys[i];
+                    return i;
                 }
                 else
                 {
@@ -165,27 +167,54 @@ namespace NoteDetection
                 }
             }
 
-            return 0;
+            return -1;
         }
 
-        public void SetPositions(int pressed, Chromatic type)
+        public int WhiteKeyPress(int noteID)
+        {
+            for(int i = 0; i < whiteKeys.Length; i++)
+            {
+                if (whiteKeys[i] == noteID - 21)
+                {
+                    chrom = false;
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+
+        public void SetPositions(int blackPressed, int whitePressed, Chromatic type)
         {
             double index = 0;
             for (int i = 0; i < positions.Length; i++)
             {
-                positions[i] = 395 - index;
-                index += 7.5; // How to fix
+                positions[i] = 410 - index;
+                index += 7.5;
+
+                if (whitePressed != -1)
+                {
+                    index = 0;
+                    index = whitePressed * 7.5;
+                }
+                else
+                {
+                    // index = 0; //need to reset.
+                }
+
                 if (chrom)
                 {
                     if (type == Chromatic.Sharp)
                     {
-                        positions[i] = positions[pressed - 1];
+                        positions[i] = positions[blackKeys[blackPressed] - 1];
                     }
                     else if (type == Chromatic.Flat)
                     {
                         //positions[i] = positions[pressed + 1]; how to do?
                     }
                 }
+                    
             }
         }
 
