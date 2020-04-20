@@ -79,6 +79,7 @@ namespace NoteDetection
                     }
                     else
                     {
+                        positions[i] += 70;
                         Global.Handy = Hand.Left;
                     }
                 }
@@ -101,7 +102,6 @@ namespace NoteDetection
                         i++;
                     }
                 }
-
             }
         }
 

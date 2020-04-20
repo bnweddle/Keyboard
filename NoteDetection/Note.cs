@@ -109,6 +109,7 @@ namespace NoteDetection
                     image = Properties.Resources.leftHalf; // Need a dot beside it
                     break;
                 case Timing.Whole:
+                    // Maybe something about Centering the image where I want it? Ask Professor.
                     image = Properties.Resources.whole; // size differently than others will mess things up!!
                     break;
             }
