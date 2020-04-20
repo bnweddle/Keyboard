@@ -46,6 +46,8 @@ namespace NoteDetection
         private Chromatic chromatic = Chromatic.Natural;
 
         double[] positions = new double[88];
+        int whitePressed;
+        int blackPressed;
 
         public Piano(int bpm, Chromatic type, SheetMusic form)
         {
@@ -62,7 +64,6 @@ namespace NoteDetection
                 currentTimers[i] = new Stopwatch();
             }
             this.pianoControl.Size = this.Size;
-
         }
 
         protected override void OnLoad(EventArgs e)
@@ -115,8 +116,8 @@ namespace NoteDetection
 
             Global.Symbol = note.GetNoteSymbol(symbols);
 
-            int whitePressed = WhiteKeyPress(e.NoteID);
-            int blackPressed = BlackKeyPress(e.NoteID);
+            whitePressed = WhiteKeyPress(e.NoteID);
+            blackPressed = BlackKeyPress(e.NoteID);
             SetPositions(blackPressed, whitePressed, chromatic);
 
             System.Diagnostics.Debug.WriteLine($"{whitePressed } white note");
@@ -124,11 +125,7 @@ namespace NoteDetection
 
             sheetForm.SetChromatic(chrom, chromatic);
 
-            double notePosition = GetPosition(positions, e.NoteID);
-
-            System.Diagnostics.Debug.WriteLine($"{notePosition } Position");
-
-            sheetForm.UpdatePaint(offset, thirds, notePosition);
+            sheetForm.UpdatePaint(offset, thirds, GetPosition(positions, e.NoteID));
 
             oldTimers[e.NoteID].Reset();
             Global.Played = false;
@@ -159,7 +156,7 @@ namespace NoteDetection
                 if (blackKeys[i] == noteID - 21)
                 {
                     chrom = true;
-                    return i;
+                    return blackKeys[i];
                 }
                 else
                 {
@@ -184,7 +181,6 @@ namespace NoteDetection
             return -1;
         }
 
-
         public void SetPositions(int blackPressed, int whitePressed, Chromatic type)
         {
             double index = 0;
@@ -194,6 +190,7 @@ namespace NoteDetection
 
                 if (whitePressed != -1)
                 {
+                    index = 0;
                     index = whitePressed * 7.5;
 
                     if(positions[i] <= 237.5)
@@ -206,12 +203,13 @@ namespace NoteDetection
                 {
                     if (type == Chromatic.Sharp)
                     {
-                        positions[i] = positions[blackKeys[blackPressed] - 1];
+                        positions[i] = positions[blackPressed - 1]; // sharps, same as before note
                         i++;
                     }
                     else if (type == Chromatic.Flat)
                     {
-                        //positions[i] = positions[pressed + 1]; how to do?
+                        positions[i] = positions[blackPressed + 1]; // flats, same as after note
+                        i++;
                     }
                 }
                     

@@ -11,6 +11,11 @@ namespace NoteDetection
     public partial class SheetMusic : Form
     {     
         private int staffHeight = 15;
+        private int staffWidth = 900;
+        private int scrollWidth = 1200;
+
+
+        private int scroll = 0;
 
         [DllImport("gdi32.dll")]
         private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
@@ -19,7 +24,6 @@ namespace NoteDetection
         {
             InitializeComponent();
             this.AutoScroll = true;
-            this.AutoScrollMinSize = new Size(3000, this.Size.Height - 100);
             this.ResizeRedraw = true;
             ImportFont();
         }
@@ -50,6 +54,12 @@ namespace NoteDetection
             this.thirds = third;
             Symbol symbol = new Symbol(Global.Symbol, 65, off, (float)position);
             DrawingNote.Add(symbol);
+
+            scrollWidth += (int)symbol.Size;
+            staffWidth += 35;
+            scroll += 35;
+            this.AutoScrollMinSize = new Size(scrollWidth, this.Size.Height - 100);
+            this.AutoScrollPosition = new Point(scroll, 0);
 
             if (third)
             {   // For checking if it is a third note to add the dot, position should not change
@@ -141,31 +151,31 @@ namespace NoteDetection
             int i;
             // draw some staff lines, 900 will need to change as user is playing, want to scroll with sheet music as user plays as well
             for (i = 0; i < 3; i++)
-                g.DrawLine(Pens.White, 0, i * staffHeight, 900, i * staffHeight); // White space for extra room
+                g.DrawLine(Pens.White, 0, i * staffHeight, staffWidth, i * staffHeight); // White space for extra room
             for (; i < 12; i++)
             {
                 // System.Diagnostics.Debug.WriteLine($"{i * staffHeight } high treble");
-                g.DrawLine(Pens.Wheat, 0, i * staffHeight, 900, i * staffHeight); // High notes
+                g.DrawLine(Pens.Wheat, 0, i * staffHeight, staffWidth, i * staffHeight); // High notes
             }
             for (; i < 17; i++)
             {
                 // System.Diagnostics.Debug.WriteLine($"{i * staffHeight} middle treble");
-                g.DrawLine(Pens.Black, 0, i * staffHeight, 900, i * staffHeight); // Middle treble clef range
+                g.DrawLine(Pens.Black, 0, i * staffHeight, staffWidth, i * staffHeight); // Middle treble clef range
             }
             i = 17;
-            g.DrawLine(Pens.Wheat, 0, i * staffHeight, 900, i * staffHeight); 
+            g.DrawLine(Pens.Wheat, 0, i * staffHeight, staffWidth, i * staffHeight); 
             i++;
             for (; i < 22; i++)
-                g.DrawLine(Pens.White, 0, i * staffHeight, 900, i * staffHeight); // Middle notes
+                g.DrawLine(Pens.White, 0, i * staffHeight, staffWidth, i * staffHeight); // Middle notes
             for (; i < 27; i++)
             {
                 // System.Diagnostics.Debug.WriteLine($"{i * staffHeight} middle bass");
-                g.DrawLine(Pens.Black, 0, i * staffHeight, 900, i * staffHeight); // Middle bass clef range
+                g.DrawLine(Pens.Black, 0, i * staffHeight, staffWidth, i * staffHeight); // Middle bass clef range
             }
             for (; i < 33; i++)
             {
                 // System.Diagnostics.Debug.WriteLine($"{i * staffHeight} low bass");
-                g.DrawLine(Pens.Wheat, 0, i * staffHeight, 900, i * staffHeight); // Low notes
+                g.DrawLine(Pens.Wheat, 0, i * staffHeight, staffWidth, i * staffHeight); // Low notes
             }
         }
     }
