@@ -191,12 +191,17 @@ namespace NoteDetection
             for (int i = 0; i < positions.Length; i++)
             {
                 positions[i] = 410 - index;
-                index += 7.5;
+                //index += 7.5;
 
                 if (whitePressed != -1)
                 {
-                    index = 0;
+                    //index = 0;
                     index = whitePressed * 7.5;
+
+                    if(positions[i] <= 237.5)
+                    {
+                        positions[i] -= 60; // move to the g clef
+                    }
                 }
                 else
                 {
