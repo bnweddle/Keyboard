@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/* Author: Bethany Weddle
+ * Class: Symbol.cs
+ * Used Images from http://linkwaregraphics.com/
+ * Used Unicodes from http://www.unicode.org/charts/PDF/U1D100.pdf
+ * */
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoteDetection
 {
-
+    /// <summary>
+    /// Used for Creating and Drawing the Symbols on the Sheet Music
+    /// </summary>
     public class Symbol
     {
         /// <summary>
@@ -41,7 +43,7 @@ namespace NoteDetection
         public Image Image { get; set; }
 
         /// <summary>
-        /// The brush the paint with
+        /// The brush to paint with
         /// </summary>
         private Brush noteBrush = Brushes.Black;
 
@@ -51,10 +53,17 @@ namespace NoteDetection
         private FontStyle fontStyle = FontStyle.Regular;
 
         /// <summary>
-        /// The unicode symbol
+        /// The Unicode symbol
         /// </summary>
         public string Unicode { get; set; }
 
+        /// <summary>
+        /// Creates a Unicode Symbol
+        /// </summary>
+        /// <param name="code">Unicode string</param>
+        /// <param name="size">Size of the Font</param>
+        /// <param name="x">X position</param>
+        /// <param name="y">Y position</param>
         public Symbol(string code, float size, float x, float y)
         {
             Unicode = code;
@@ -63,6 +72,14 @@ namespace NoteDetection
             Y = y;
         }
 
+        /// <summary>
+        /// Creates an Image Symbol
+        /// </summary>
+        /// <param name="image">The image from the Resources</param>
+        /// <param name="x">X Position</param>
+        /// <param name="y">Y Position</param>
+        /// <param name="width">Width of Image</param>
+        /// <param name="height">Height of Image</param>
         public Symbol(Image image, float x, float y, float width, float height)
         {
             Image = image;
@@ -72,18 +89,35 @@ namespace NoteDetection
             Height = height;
         }
 
-        public void DrawSymbol(Graphics g, Font font, FontFamily ff, string unicode, float x, float y)
+        /// <summary>
+        /// Draws the Unicode Symbol
+        /// </summary>
+        /// <param name="g">The paint graphics</param>
+        /// <param name="font">The font to use</param>
+        /// <param name="ff">The fony family the font belongs to</param>
+        public void DrawSymbol(Graphics g, Font font, FontFamily ff)
         {
             font = new Font(ff, this.Size, fontStyle);
-            g.DrawString(unicode, font, noteBrush, x, y);
+            g.DrawString(this.Unicode, font, noteBrush, this.X, this.Y);
         }
 
-        public void DrawSymbol(Graphics g, float x, float y, float width, float height)
+        /// <summary>
+        /// Draws the Image Symbol
+        /// </summary>
+        /// <param name="g">The paint graphics</param>
+        public void DrawSymbol(Graphics g)
         {
-            // 20, 60 for regular notes, not sure about whole note
-            g.DrawImage(this.Image, x, y, width, height);
+            g.DrawImage(this.Image, this.X, this.Y, this.Width, this.Height);
         }
-
+      
+        /// <summary>
+        /// Draws the Clefs
+        /// </summary>
+        /// <param name="g">The paint graphics</param>
+        /// <param name="font">The font to use</param>
+        /// <param name="ff">The font family the font belongs to</param>
+        /// <param name="xOffset">The X offset to draw the Time signature</param>
+        /// <param name="yOffset">The Y offset to draw the Time signature</param>
         public void DrawSymbol(Graphics g, Font font, FontFamily ff, int xOffset, int yOffset)
         {
             font = new Font(ff, this.Size, fontStyle);

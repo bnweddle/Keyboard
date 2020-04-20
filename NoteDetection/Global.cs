@@ -1,24 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿/* Author: Bethany Weddle
+ * Class: Global.cs
+ * */
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoteDetection
 {
+    /// <summary>
+    /// The Global Class to share variables between all classes and forms
+    /// </summary>
     public static class Global
     {
-
+        /// <summary>
+        /// The Unicode Symbols for the Right Hand Notes
+        /// </summary>
         public static string Symbol { get; set; }
 
+        /// <summary>
+        /// The Image Symbols for the Left Hand Notes
+        /// </summary>
         public static Image Image { get; set; }
 
+        /// <summary>
+        /// The Chromatic Unicode for the Sharps and Flats
+        /// </summary>
         public static string Chromatic { get; set; }
 
+        /// <summary>
+        /// The Hand enum for Left and Right
+        /// </summary>
         public static Hand Handy { get; set; }
 
+        /// <summary>
+        /// The Time enum, mostly used for checking Third Notes
+        /// </summary>
         public static Timing Time { get; set; }
 
         /// <summary>

@@ -1,15 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/* Author: Bethany Weddle
+ * Class: NoteEstimator.cs
+ * Got Help from Advisor Nathan Bean in implementing
+*/
 
 namespace NoteDetection
 {
+    /// <summary>
+    /// Used for estimating the Note Timing based on the Note duration and BPM
+    /// </summary>
     public class NoteEstimator
     {
+        /// <summary>
+        /// The Thresholds for the Type of Notes
+        /// </summary>
         private static long[] thresholds;
 
+        /// <summary>
+        ///  Stores the thresholds based on the BPM retrieved from Start Form
+        /// </summary>
+        /// <param name="bpm">Beats per Minute from Start Form</param>
         public NoteEstimator(int bpm)
         {
             thresholds = new long[10];
@@ -28,6 +37,11 @@ namespace NoteDetection
 
         }
 
+        /// <summary>
+        /// Gets the Timing per the Duration
+        /// </summary>
+        /// <param name="duration">Rounded Stopwatch duration</param>
+        /// <returns>Riming of the pressed Note</returns>
         public Timing GetNoteFromDuration(long duration)
         {
             if(duration < thresholds[0])

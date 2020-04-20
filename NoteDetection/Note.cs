@@ -1,20 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿/* Author: Bethany Weddle
+ * Class: Note.cs
+ * */
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoteDetection
 {
-    // Might move to Symbol or something
+    /// <summary>
+    /// Enum for which Hand is used for using Symbols
+    /// </summary>
     public enum Hand
     {
         Right,
         Left
     }
 
+    /// <summary>
+    /// Enum for setting the Unicode/Image for each type of Note
+    /// </summary>
     public enum Timing
     {
         Sixteenth = 0,   // "\uD834\uDD61"
@@ -30,6 +32,9 @@ namespace NoteDetection
 
     };
 
+    /// <summary>
+    /// Enum for setting the Special Unicode for the Black Keys 
+    /// </summary>
     public enum Chromatic
     {
         Flat,      // "\u266D"
@@ -37,8 +42,16 @@ namespace NoteDetection
         Natural    // "\u266E"
     };
 
+    /// <summary>
+    /// Note class for getting the Symbols for drawing on Sheet Music
+    /// </summary>
     public class Note
     {
+        /// <summary>
+        /// Gets the Note Unicode Symbol
+        /// </summary>
+        /// <param name="symbol">The Timing of the played Note</param>
+        /// <returns>Unicode symbol for note pressed</returns>
         public string GetNoteSymbol(Timing symbol)
         {
             string unicode = "";
@@ -79,7 +92,11 @@ namespace NoteDetection
             return unicode;
         }
 
-        /// THIS IS NOT USED AS OF YET
+        /// <summary>
+        /// Gets the Chromatic Unicode for the Note
+        /// </summary>
+        /// <param name="symbol">The Chromatic value of the pressed note</param>
+        /// <returns>The Unicode for the pressed note</returns>
         public string GetChromaticSymbol(Chromatic symbol)
         {
             string unicode = "";
@@ -98,6 +115,12 @@ namespace NoteDetection
             return unicode;
         }
 
+        /// <summary>
+        /// Gets the Image for the Left Hand notes
+        /// </summary>
+        /// <param name="symbol">The Timing of the Pressed Note</param>
+        /// <param name="time">To Set the Global Time</param>
+        /// <returns>The Image of the Pressed Note</returns>
         public Image GetImage(Timing symbol, out Timing time)
         {
             Image image = null;
