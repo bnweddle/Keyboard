@@ -191,11 +191,9 @@ namespace NoteDetection
             for (int i = 0; i < positions.Length; i++)
             {
                 positions[i] = 410 - index;
-                //index += 7.5;
 
                 if (whitePressed != -1)
                 {
-                    //index = 0;
                     index = whitePressed * 7.5;
 
                     if(positions[i] <= 237.5)
@@ -203,16 +201,13 @@ namespace NoteDetection
                         positions[i] -= 60; // move to the g clef
                     }
                 }
-                else
-                {
-                    // index = 0; //need to reset.
-                }
 
                 if (chrom)
                 {
                     if (type == Chromatic.Sharp)
                     {
                         positions[i] = positions[blackKeys[blackPressed] - 1];
+                        i++;
                     }
                     else if (type == Chromatic.Flat)
                     {
