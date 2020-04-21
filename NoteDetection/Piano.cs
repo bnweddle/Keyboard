@@ -12,6 +12,7 @@
  * 
  * */
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using Sanford.Multimedia.Midi;
@@ -33,6 +34,10 @@ namespace NoteDetection
         Stopwatch[] currentTimers = new Stopwatch[127];
         
         int BeatsPerMinute;
+
+        //Used to keep track of how much notes are pressed at once
+        int number = 0;
+        int shiftX = 0;
 
         // Note objects
         NoteEstimator noteEstimator;
@@ -96,22 +101,50 @@ namespace NoteDetection
 
             base.OnLoad(e);
         }
-        
+
+        int oldNote = 0;
+        int newNote = 0;
         // For when the Keyboard Note or Mouse  Note is pressed
         private void PianoControl_PianoKeyDown(object sender, PianoKeyEventArgs e)
         {
             oldTimers[e.NoteID].Start();
+            oldNote = e.NoteID;
+            System.Diagnostics.Debug.WriteLine($"{newNote } new Note");
+            System.Diagnostics.Debug.WriteLine($"{oldNote } old Note");
             System.Diagnostics.Debug.WriteLine($"{e.NoteID} noteID");
             outDevice.Send(new ChannelMessage(ChannelCommand.NoteOn, 0, e.NoteID, 127));
             offset += 45;
+
+            System.Diagnostics.Debug.WriteLine($"{number } number");
+            if (number > 0)
+            {
+                if (newNote + 1 == oldNote || newNote == oldNote - 1)
+                {
+                    chromatic = Chromatic.Flat;
+                    System.Diagnostics.Debug.WriteLine($"{chromatic } chromatic");
+                }
+                else if (newNote - 1 == oldNote || newNote == oldNote + 1)
+                {
+                    // Might work better after fixing Keys LIMITATION
+                    chromatic = Chromatic.Sharp;
+                    System.Diagnostics.Debug.WriteLine($"{chromatic } chromatic");
+                }
+                else if (newNote + 2 == oldNote || newNote - 2 == oldNote)
+                {
+                    shiftX = 10;
+                    System.Diagnostics.Debug.WriteLine($"{shiftX } shift by");
+                }
+            }
+            
+
+            newNote = oldNote;
         }
 
         // For when the Keyboard Note or Mouse Note is released
         private void PianoControl_PianoKeyUp(object sender, PianoKeyEventArgs e)
-        {   
-            oldTimers[e.NoteID].Stop();       
+        {
+            oldTimers[e.NoteID].Stop();
             outDevice.Send(new ChannelMessage(ChannelCommand.NoteOff, 0, e.NoteID, 0));
-
             currentTimers[e.NoteID] = oldTimers[e.NoteID];
             long duration = currentTimers[e.NoteID].ElapsedMilliseconds.Round(100);
 
@@ -142,23 +175,29 @@ namespace NoteDetection
             Global.Image = note.GetImage(symbols, out time);
             Global.Time = time;
 
-            sheetForm.UpdatePaint(offset, thirds, keys.GetPosition(e.NoteID));
+            sheetForm.UpdatePaint(offset, shiftX, thirds, keys.GetPosition(e.NoteID));
 
             oldTimers[e.NoteID].Reset();
         }
 
-        // When the user hits a Key by Mouse
+        
         private void pianoControl_KeyDown(object sender, KeyEventArgs e)
         {
             pianoControl.PressPianoKey(e.KeyCode);
+            number++;
             base.OnKeyDown(e);
+
         }
 
         // When the user releases a Key by Mouse
         private void pianoControl_KeyUp(object sender, KeyEventArgs e)
         {
+            // Fixes the issue of double/triple notes increasing the offset too much
+            if (number >= 2)
+                offset -= (number - 1) * 45;
             pianoControl.ReleasePianoKey(e.KeyCode);
             base.OnKeyUp(e);
+            number = 0;
         }
 
         // For Closing the Forms

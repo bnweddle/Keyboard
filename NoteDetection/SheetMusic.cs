@@ -2,13 +2,20 @@
  * Class: SheetMusic.cs 
  * 
  * TO DO: 
- * 1. Change how Keyboard Keys work
- * 2. Think about Rests (time between pressed notes)  - Get Idea from Professor
- * 3. Implement Measures checking with Time Signature - Get Idea from Professor
- * 4. Fix Offset when more than 1 note is pressed     - Ask Professor
- * 5. Fix Sharp/Flat position to be constant 
- * 6. Fix LIMIATION in Keys.cs                        - Show Professor
- * 
+ * 1. Change how Keyboard Keys work (LIMITATION)      - Ask Professor
+ * 2. Think about Rests (time between pressed notes)  - Get Idea from Professor 
+ * 3. Implement Measures checking with Time Signature - 2 & 3 would go hand-in-hand 
+ * 4. Fix Sharp/Flat position to be constant
+ * 5. Fix LIMIATION in Keys.cs                        - Show Professor!!!!
+ * 6. Fix Scrolling Off the Form Issue                - Show Professor
+ *    (Slightly better)
+ * 7. Two Notes right beside each other are pressed   - 5 & 7 go hand-in-hand
+ *    
+ *    
+ * Extra to Think About for future:
+ * 1. How to implement Beams when multiple Eighth/Sixteenth Notes are pressed
+ * 2. How to read and play back what was created
+ * 3. How to print PDF
  * */
 
 using System;
@@ -33,7 +40,7 @@ namespace NoteDetection
         // private variables for scrolling and drawing sheet music lines
         private int staffHeight = 15;
         private int staffWidth = 900;
-        private int scrollWidth = 1200;
+        private int scrollWidth = 900;
         private int scroll = 0;
 
         /// <summary>
@@ -85,12 +92,12 @@ namespace NoteDetection
         /// <param name="off">The spacing between notes: X position</param>
         /// <param name="third">indicates whether the note needs a dot beside it</param>
         /// <param name="position">the Y position for the specific noteID </param>
-        public void UpdatePaint(int off, bool third, double position)
+        public void UpdatePaint(int off, int shiftX, bool third, double position)
         {
-            // Handle the auto scrolling while playing, Why after a bit does it go off screen?
-            scrollWidth += 65;
-            staffWidth += 35;
-            scroll += 35;
+            // Handle the auto scrolling while playing
+            scrollWidth += 40;
+            staffWidth += 40;
+            scroll = off - this.Size.Width + 100;
 
             this.AutoScrollMinSize = new Size(scrollWidth, this.Size.Height - 100);
             this.AutoScrollPosition = new Point(scroll, 0);
@@ -125,7 +132,7 @@ namespace NoteDetection
                 }
             }
 
-
+            // Special Symbols
             if (third)
             {   // For checking if it is a third note to add the dot, if whole note it will need to be swifted slightly
                 if (Global.Time == Timing.ThirdWhole) handOffsetX -= 5;
