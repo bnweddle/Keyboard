@@ -4,6 +4,8 @@
  * TO DO: Need to adjust for LIMIATION! See down in SetPositions
  * */
 
+using System;
+
 namespace NoteDetection
 {
     /// <summary>
@@ -13,6 +15,7 @@ namespace NoteDetection
     {
         /// <summary>
         /// The Number of Black Keys and their Indexes on the Piano
+        /// Need to probably put in terms of 52 instead of 88?
         /// </summary>
         private int[] blackKeys = new int[36]
         {
@@ -91,7 +94,7 @@ namespace NoteDetection
         /// <param name="chrom">If the key is black</param>
         public void SetPositions(int blackPressed, int whitePressed, Chromatic type, bool chrom)
         {
-            
+            System.Diagnostics.Debug.WriteLine($"{blackPressed } black note inside function");
             double index = 0;
             for (int i = 0; i < positions.Length; i++)
             {
@@ -100,19 +103,7 @@ namespace NoteDetection
 
                 if (whitePressed != -1)
                 {
-                    index = 0;
                     index = whitePressed * 7.5;
-
-                    if (positions[i] <= 252.5) 
-                    {
-                        positions[i] -= 60; // move to the g clef
-                        Global.Handy = Hand.Right;
-                    }
-                    else
-                    {
-                        positions[i] += 70; // adjust for note height difference
-                        Global.Handy = Hand.Left;
-                    }
                 }
 
                 if (chrom)
@@ -122,16 +113,30 @@ namespace NoteDetection
                     {
                         // only works if you hit note after it
                         // Need to come up with index  calculation for sharps
-                        positions[i] = positions[blackPressed - 1]; // sharps, same as before note
-                        i++;
+                        // positions[i] = positions[blackPressed - 1]; // sharps, same as before note
+                        index = (blackPressed - 1) * 7.5 ;
+                        // i++;		
+
                     }
                     else if (type == Chromatic.Flat)
                     {
                         // only works if you hit note before it
                         // Need to come up with index calculation for flats
-                        positions[i] = positions[blackPressed + 1]; // flats, same as after note
-                        i++;
+                        // positions[i] = positions[blackPressed + 1]; // flats, same as after note
+                        // i++;
+                        index = (blackPressed + 1) * 7.5;
                     }
+                }
+
+                if (positions[i] <= 252.5)
+                {
+                    positions[i] -= 60; // move to the g clef
+                    Global.Handy = Hand.Right;
+                }
+                else
+                {
+                    positions[i] += 70; // adjust for note height difference
+                    Global.Handy = Hand.Left;
                 }
             }
         }
@@ -144,6 +149,42 @@ namespace NoteDetection
         public double GetPosition(int noteID)
         {
             return positions[noteID - 21];
+        }
+
+        public Chromatic ChangePosition(int oldNote, int newNote, int blackNote, out int shiftX, Chromatic chromatic)
+        {
+            Chromatic oldValue = chromatic;
+            shiftX = 10;
+            /* if newNote + 1 == oldNote and newNote == blackNote 
+             * if newNote - 1 == oldNote and newNote == blackNote
+             * 
+             * if newNote + 1 == OldNote and newNote != blackNote
+             * if newNote + 2 == OldNote || if newNote - 2 == oldNote
+             * */
+
+            if (newNote + 1 == oldNote)
+            {
+                chromatic = Chromatic.Flat;
+                System.Diagnostics.Debug.WriteLine($"{chromatic } chromatic");
+            }
+            else if (newNote - 1 == oldNote)
+            {
+                // Might work better after fixing Keys LIMITATION
+                chromatic = Chromatic.Sharp;
+                System.Diagnostics.Debug.WriteLine($"{chromatic } chromatic");
+            }
+            else if (newNote + 2 == oldNote || newNote - 2 == oldNote)
+            {
+                // Need to account for D E and A B
+                // chromatic should go back to what is was before
+                chromatic = oldValue;
+            }
+            else
+            {
+                chromatic = Chromatic.Natural;
+            }
+
+            return chromatic;
         }
     }
 }

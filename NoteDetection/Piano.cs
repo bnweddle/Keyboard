@@ -38,6 +38,8 @@ namespace NoteDetection
         //Used to keep track of how much notes are pressed at once
         int number = 0;
         int shiftX = 0;
+        int oldNote = 0;
+        int newNote = 0;
 
         // Note objects
         NoteEstimator noteEstimator;
@@ -102,40 +104,27 @@ namespace NoteDetection
             base.OnLoad(e);
         }
 
-        int oldNote = 0;
-        int newNote = 0;
         // For when the Keyboard Note or Mouse  Note is pressed
         private void PianoControl_PianoKeyDown(object sender, PianoKeyEventArgs e)
         {
             oldTimers[e.NoteID].Start();
             oldNote = e.NoteID;
-            System.Diagnostics.Debug.WriteLine($"{newNote } new Note");
-            System.Diagnostics.Debug.WriteLine($"{oldNote } old Note");
-            System.Diagnostics.Debug.WriteLine($"{e.NoteID} noteID");
+
+            whitePressed = keys.WhiteKeyPress(e.NoteID, out chrom);
+            blackPressed = keys.BlackKeyPress(e.NoteID, out chrom);
+
+            System.Diagnostics.Debug.WriteLine($"{e.NoteID - 21} noteID");
+            System.Diagnostics.Debug.WriteLine($"{oldNote - 21} oldNote");
+            System.Diagnostics.Debug.WriteLine($"{newNote - 21} newNote");
+
             outDevice.Send(new ChannelMessage(ChannelCommand.NoteOn, 0, e.NoteID, 127));
             offset += 45;
 
-            System.Diagnostics.Debug.WriteLine($"{number } number");
+            System.Diagnostics.Debug.WriteLine($"{blackPressed } black note index");
             if (number > 0)
             {
-                if (newNote + 1 == oldNote || newNote == oldNote - 1)
-                {
-                    chromatic = Chromatic.Flat;
-                    System.Diagnostics.Debug.WriteLine($"{chromatic } chromatic");
-                }
-                else if (newNote - 1 == oldNote || newNote == oldNote + 1)
-                {
-                    // Might work better after fixing Keys LIMITATION
-                    chromatic = Chromatic.Sharp;
-                    System.Diagnostics.Debug.WriteLine($"{chromatic } chromatic");
-                }
-                else if (newNote + 2 == oldNote || newNote - 2 == oldNote)
-                {
-                    shiftX = 10;
-                    System.Diagnostics.Debug.WriteLine($"{shiftX } shift by");
-                }
+                chromatic = keys.ChangePosition(oldNote, newNote, blackPressed, out shiftX, chromatic);
             }
-            
 
             newNote = oldNote;
         }
@@ -157,14 +146,11 @@ namespace NoteDetection
                 thirds = false;
 
             System.Diagnostics.Debug.WriteLine($"{symbols } timing");
-
             // Setting the Positions
-            whitePressed = keys.WhiteKeyPress(e.NoteID, out chrom);
-            blackPressed = keys.BlackKeyPress(e.NoteID, out chrom);
             keys.SetPositions(blackPressed, whitePressed, chromatic, chrom);
 
-            System.Diagnostics.Debug.WriteLine($"{whitePressed } white note");
-            System.Diagnostics.Debug.WriteLine($"{blackPressed } black note");
+            // System.Diagnostics.Debug.WriteLine($"{whitePressed } white note");
+            // System.Diagnostics.Debug.WriteLine($"{blackPressed } black note");
 
             sheetForm.SetChromatic(chrom, chromatic);
 
@@ -180,7 +166,7 @@ namespace NoteDetection
             oldTimers[e.NoteID].Reset();
         }
 
-        
+        // When the user presses a Key
         private void pianoControl_KeyDown(object sender, KeyEventArgs e)
         {
             pianoControl.PressPianoKey(e.KeyCode);
@@ -189,7 +175,7 @@ namespace NoteDetection
 
         }
 
-        // When the user releases a Key by Mouse
+        // When the user releases a Key 
         private void pianoControl_KeyUp(object sender, KeyEventArgs e)
         {
             // Fixes the issue of double/triple notes increasing the offset too much
