@@ -149,7 +149,7 @@ namespace NoteDetection
             return positions[noteID - 21];
         }
 
-        public Chromatic ChangePosition(int oldNote, int newNote, int blackNote, out int shiftX, Chromatic chromatic)
+        public Chromatic ChangePosition(int oldNote, int newNote, int blackNote, int shiftX, Chromatic chromatic)
         {
             int index = Array.IndexOf(black52, blackNote);
             Chromatic oldValue = chromatic;

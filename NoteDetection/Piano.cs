@@ -110,12 +110,7 @@ namespace NoteDetection
             oldTimers[e.NoteID].Start();
             oldNote = e.NoteID - 21;
            
-            whitePressed = keys.WhiteKeyPress(e.NoteID, out chrom);
-            blackPressed = keys.BlackKeyPress(e.NoteID, out chrom);
-
-            // Setting the Positions
-            keys.SetPositions(blackPressed, whitePressed, chromatic, chrom);
-
+          
             System.Diagnostics.Debug.WriteLine($"{e.NoteID} noteID");
             System.Diagnostics.Debug.WriteLine($"{oldNote} oldNote");
             System.Diagnostics.Debug.WriteLine($"{newNote} newNote");
@@ -126,7 +121,7 @@ namespace NoteDetection
             System.Diagnostics.Debug.WriteLine($"{chromatic } when pressed");
             if (number > 0)
             {
-                chromatic = keys.ChangePosition(oldNote, newNote, blackPressed, out shiftX, chromatic);
+                //chromatic = keys.ChangePosition(oldNote, newNote, blackPressed, shiftX, chromatic);
             }
 
             newNote = oldNote;
@@ -152,6 +147,13 @@ namespace NoteDetection
 
             // System.Diagnostics.Debug.WriteLine($"{whitePressed } white note");
             // System.Diagnostics.Debug.WriteLine($"{blackPressed } black note");
+
+            whitePressed = keys.WhiteKeyPress(e.NoteID, out chrom);
+            blackPressed = keys.BlackKeyPress(e.NoteID, out chrom);
+
+            // Setting the Positions
+            keys.SetPositions(blackPressed, whitePressed, chromatic, chrom);
+
 
             sheetForm.SetChromatic(chrom, chromatic);
 

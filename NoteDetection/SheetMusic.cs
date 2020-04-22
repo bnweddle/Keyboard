@@ -5,10 +5,9 @@
  * 1. Change how Keyboard Keys work (LIMITATION)      - Ask Professor
  * 2. Think about Rests (time between pressed notes)  - Get Idea from Professor 
  * 3. Implement Measures checking with Time Signature - 2 & 3 would go hand-in-hand 
- * 4. Fix Sharp/Flat position to be constant
- * 5. Fix Scrolling Off the Form Issue                - Show Professor
+ * 4. Fix Scrolling Off the Form Issue                - Show Professor
  *    (Slightly better)
- * 6. Two Notes right beside each other are pressed   - 5 & 7 go hand-in-hand
+ * 5. Two Notes right beside each other are pressed   - 5 & 7 go hand-in-hand
  *    
  *    
  * Extra to Think About for future:
