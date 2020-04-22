@@ -108,19 +108,22 @@ namespace NoteDetection
         private void PianoControl_PianoKeyDown(object sender, PianoKeyEventArgs e)
         {
             oldTimers[e.NoteID].Start();
-            oldNote = e.NoteID;
-
+            oldNote = e.NoteID - 21;
+           
             whitePressed = keys.WhiteKeyPress(e.NoteID, out chrom);
             blackPressed = keys.BlackKeyPress(e.NoteID, out chrom);
 
-            System.Diagnostics.Debug.WriteLine($"{e.NoteID - 21} noteID");
-            System.Diagnostics.Debug.WriteLine($"{oldNote - 21} oldNote");
-            System.Diagnostics.Debug.WriteLine($"{newNote - 21} newNote");
+            // Setting the Positions
+            keys.SetPositions(blackPressed, whitePressed, chromatic, chrom);
+
+            System.Diagnostics.Debug.WriteLine($"{e.NoteID} noteID");
+            System.Diagnostics.Debug.WriteLine($"{oldNote} oldNote");
+            System.Diagnostics.Debug.WriteLine($"{newNote} newNote");
 
             outDevice.Send(new ChannelMessage(ChannelCommand.NoteOn, 0, e.NoteID, 127));
             offset += 45;
 
-            System.Diagnostics.Debug.WriteLine($"{blackPressed } black note index");
+            System.Diagnostics.Debug.WriteLine($"{chromatic } when pressed");
             if (number > 0)
             {
                 chromatic = keys.ChangePosition(oldNote, newNote, blackPressed, out shiftX, chromatic);
@@ -146,8 +149,6 @@ namespace NoteDetection
                 thirds = false;
 
             System.Diagnostics.Debug.WriteLine($"{symbols } timing");
-            // Setting the Positions
-            keys.SetPositions(blackPressed, whitePressed, chromatic, chrom);
 
             // System.Diagnostics.Debug.WriteLine($"{whitePressed } white note");
             // System.Diagnostics.Debug.WriteLine($"{blackPressed } black note");
@@ -178,9 +179,9 @@ namespace NoteDetection
         // When the user releases a Key 
         private void pianoControl_KeyUp(object sender, KeyEventArgs e)
         {
-            // Fixes the issue of double/triple notes increasing the offset too much
+            //Fixes the issue of double/triple notes increasing the offset too much
             if (number >= 2)
-                offset -= (number - 1) * 45;
+               offset -= (number - 1) * 45;
             pianoControl.ReleasePianoKey(e.KeyCode);
             base.OnKeyUp(e);
             number = 0;

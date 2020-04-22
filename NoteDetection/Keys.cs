@@ -1,7 +1,5 @@
 ﻿/* Author: Bethany Weddle
  * Class: Keys.cs
- * 
- * TO DO: Need to adjust for LIMIATION! See down in SetPositions
  * */
 
 using System;
@@ -15,12 +13,20 @@ namespace NoteDetection
     {
         /// <summary>
         /// The Number of Black Keys and their Indexes on the Piano
-        /// Need to probably put in terms of 52 instead of 88?
         /// </summary>
         private int[] blackKeys = new int[36]
         {
             1, 4, 6, 9, 11, 13, 16, 18, 21, 23, 25, 28, 30, 33, 35, 37, 40, 42, 45, 47, 49,
             52, 54, 57, 59, 61, 64, 66, 69, 71, 73, 76, 78, 81, 83, 85
+        };
+
+        /// <summary>
+        /// The black keys relative to the 52 white keys
+        /// </summary>
+        private int[] black52 = new int[36]
+        {
+            0, 2, 3, 5, 6, 7, 9, 10, 12, 13, 14, 16, 17, 19, 20, 21, 23, 24, 26, 27, 28, 30,
+            31, 33, 34 ,35, 37, 38, 40, 41, 42, 44, 45 ,47, 48, 49
         };
 
         /// <summary>
@@ -38,12 +44,12 @@ namespace NoteDetection
         /// </summary>
         private double[] positions = new double[88];
 
-        /// <summary>
+        /// <summary> 
         /// Checks which Black Key was pressed
         /// </summary>
         /// <param name="noteID">The key that was pressed</param>
         /// <param name="chrom">What the Chromatic value is: sharp or flat</param>
-        /// <returns>Black Note Index</returns>
+        /// <returns>Black Note Index in terms of 52</returns>
         public int BlackKeyPress(int noteID, out bool chrom)
         {
             // Need to check if any black of the black keys values equal noteID
@@ -52,7 +58,7 @@ namespace NoteDetection
                 if (blackKeys[i] == noteID - 21)
                 {
                     chrom = true;
-                    return blackKeys[i];
+                    return black52[i];
                 }
                 else
                 {
@@ -108,23 +114,15 @@ namespace NoteDetection
 
                 if (chrom)
                 {
-                    // LIMITATION!!! currently, must not click sharps/flats notes first.
                     if (type == Chromatic.Sharp)
                     {
-                        // only works if you hit note after it
-                        // Need to come up with index  calculation for sharps
-                        // positions[i] = positions[blackPressed - 1]; // sharps, same as before note
-                        index = (blackPressed - 1) * 7.5 ;
-                        // i++;		
-
+                        index = blackPressed * 7.5;
+                        i++;
                     }
                     else if (type == Chromatic.Flat)
                     {
-                        // only works if you hit note before it
-                        // Need to come up with index calculation for flats
-                        // positions[i] = positions[blackPressed + 1]; // flats, same as after note
-                        // i++;
                         index = (blackPressed + 1) * 7.5;
+                        i++;
                     }
                 }
 
@@ -153,21 +151,22 @@ namespace NoteDetection
 
         public Chromatic ChangePosition(int oldNote, int newNote, int blackNote, out int shiftX, Chromatic chromatic)
         {
+            int index = Array.IndexOf(black52, blackNote);
             Chromatic oldValue = chromatic;
-            shiftX = 10;
+            shiftX = 0;
             /* if newNote + 1 == oldNote and newNote == blackNote 
-             * if newNote - 1 == oldNote and newNote == blackNote
-             * 
-             * if newNote + 1 == OldNote and newNote != blackNote
-             * if newNote + 2 == OldNote || if newNote - 2 == oldNote
-             * */
-
-            if (newNote + 1 == oldNote)
+            *  if newNote - 1 == oldNote and newNote == blackNote
+            * 
+            * if newNote + 1 == OldNote and newNote != blackNote
+            * if newNote + 2 == OldNote || if newNote - 2 == oldNote
+            * */
+            if (newNote + 1 == oldNote && newNote == blackKeys[index] - 1)
             {
+                // Drawing two flats??
                 chromatic = Chromatic.Flat;
                 System.Diagnostics.Debug.WriteLine($"{chromatic } chromatic");
             }
-            else if (newNote - 1 == oldNote)
+            else if (newNote - 1 == oldNote && newNote == blackKeys[index] - 1)
             {
                 // Might work better after fixing Keys LIMITATION
                 chromatic = Chromatic.Sharp;

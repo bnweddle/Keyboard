@@ -6,10 +6,9 @@
  * 2. Think about Rests (time between pressed notes)  - Get Idea from Professor 
  * 3. Implement Measures checking with Time Signature - 2 & 3 would go hand-in-hand 
  * 4. Fix Sharp/Flat position to be constant
- * 5. Fix LIMIATION in Keys.cs                        - Show Professor!!!!
- * 6. Fix Scrolling Off the Form Issue                - Show Professor
+ * 5. Fix Scrolling Off the Form Issue                - Show Professor
  *    (Slightly better)
- * 7. Two Notes right beside each other are pressed   - 5 & 7 go hand-in-hand
+ * 6. Two Notes right beside each other are pressed   - 5 & 7 go hand-in-hand
  *    
  *    
  * Extra to Think About for future:
@@ -142,14 +141,16 @@ namespace NoteDetection
             }
             if (chromValue == Chromatic.Sharp)
             {
+                if (third) handOffsetX -= 2; // if third and sharp, shift sharp so it doesn't appear on dot
                 // set the Sharp symbol position relative to the hand offset
                 Symbol s = new Symbol(Global.Chromatic, 20, symbol.X - handOffsetX, symbol.Y + 70 - handOffsetY);
                 DrawingRightNotes.Add(s);
             }
             if (chromValue == Chromatic.Flat)
             {
+                if (third) handOffsetX -= 2; // if third and flat, shift flat so it doesn't appear on dot
                 // set the Flat symbol position relative to the hand offset
-                Symbol s = new Symbol(Global.Chromatic, 20, symbol.X - handOffsetX - 1, symbol.Y + 70 - handOffsetY);
+                Symbol s = new Symbol(Global.Chromatic, 20, symbol.X - handOffsetX, symbol.Y + 70 - handOffsetY);
                 DrawingRightNotes.Add(s);
             }
             Invalidate();
